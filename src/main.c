@@ -1,17 +1,11 @@
 #include "../include/console.h"
-
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
+#include "../include/lexer.h"
 
 int main(void)
 {
-    while (true) {
-        char *code = asker();
+    char *code = asker();
+    tokens *tks = lexer(code);
 
-        printf("%s\n", code);
-        free(code);
-    }
-
+    show_lexer(tks);
     return 0;
 }

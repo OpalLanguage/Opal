@@ -1,7 +1,7 @@
 #ifndef OPAL_LEXER_H
 #define OPAL_LEXER_H
 
-typedef struct token token;
+typedef struct tokens tokens;
 enum token_type
 {
     TOKEN_INT,
@@ -10,13 +10,15 @@ enum token_type
     TOKEN_ASSIGN
 };
 
-struct token
+struct tokens
 {
     enum token_type type;
     void *value;
-    token *next;
+    tokens *next;
 };
 
-void show_lexer();
+void show_lexer(tokens *tks);
+void add_token(tokens **tks, enum token_type type, void *value);
+tokens *lexer(char *code);
 
 #endif
