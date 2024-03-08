@@ -8,14 +8,14 @@ char *asker()
 
     if (code == NULL) {
         perror("malloc");
-        return NULL;
+        exit(1);
     }
 
     printf("Opal > ");
 
     if (fgets(code, 200, stdin) == NULL) {
         free(code);
-        return NULL;
+        exit(1);
     }
 
     code[strcspn(code, "\n")] = '\0';

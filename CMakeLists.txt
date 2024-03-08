@@ -5,4 +5,8 @@ set(CMAKE_C_STANDARD 23)
 
 add_executable(Opal
         src/main.c
-        src/console.c include/console.h)
+        src/console.c
+        src/lexer.c
+
+        include/console.h
+        include/lexer.h)
