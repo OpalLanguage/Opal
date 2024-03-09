@@ -21,10 +21,6 @@ void show_lexer(tokens *tks)
                 printf("STRING -> \"%s\"\n", (char*)tks->value);
                 break;
             }
-            case TOKEN_ASSIGN: {
-                printf("ASSIGN -> =\n");
-                break;
-            }
             case TOKEN_VARIABLE_NAME: {
                 printf("VARIABLE_NAME -> %s\n", (char*)tks->value);
                 break;
@@ -38,6 +34,8 @@ void show_lexer(tokens *tks)
             }
             case TOKEN_NULL:
                 printf("NULL -> %s\n", (char*)tks->value);
+                break;
+            case TOKEN_ASSIGN:
                 break;
         }
         tks = tks->next;

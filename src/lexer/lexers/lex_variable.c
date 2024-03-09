@@ -40,7 +40,7 @@ void lex_variable(tokens **tks, char **code)
             exit(1);
         }
 
-        bool isFloat = (end != *code && (strchr(*code, '.') != NULL || strchr(*code, 'e') != NULL || strchr(*code, 'E') != NULL));
+        bool isFloat = end != *code && (strchr(*code, '.') != NULL);
 
         if (isFloat) {
             lex_float(tks, number);

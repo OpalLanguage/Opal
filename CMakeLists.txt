@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 23)
 add_executable(Opal
         src/main.c
         src/console.c
+        src/file_loader.c
 
         src/lexer/lexer.c
         src/lexer/lexers/types/lex_char.c
@@ -16,8 +17,8 @@ add_executable(Opal
         src/lexer/lexers/types/lex_null.c
         src/lexer/lexers/types/lex_boolean.c
 
-
         include/console.h
+        include/file_loader.h
 
         include/lexer/lexer.h
         include/lexer/lexers/types/lex_boolean.h
@@ -26,4 +27,4 @@ add_executable(Opal
         include/lexer/lexers/types/lex_int.h
         include/lexer/lexers/types/lex_null.h
         include/lexer/lexers/types/lex_string.h
-        include/lexer/lexers/lex_variable.h include/lexer/lexers/types.h)
+        include/lexer/lexers/lex_variable.h include/lexer/lexers/types.h src/file_loader.c)
