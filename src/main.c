@@ -1,5 +1,5 @@
 #include "../include/console.h"
-#include "../include/lexer.h"
+#include "../include/lexer/lexer.h"
 
 int main(void)
 {
