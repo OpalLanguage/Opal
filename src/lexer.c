@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 void show_lexer(tokens *tks)
 {
@@ -30,18 +31,16 @@ void show_lexer(tokens *tks)
                 break;
             }
             case TOKEN_FLOAT:
+                printf("FLOAT -> %f\n", *(float*)tks->value);
                 break;
             case TOKEN_BOOLEAN: {
                 printf("BOOLEAN -> %s\n", (char*)tks->value);
                 break;
             }
-            case TOKEN_NULL:
-                break;
             case TOKEN_BYTE:
                 break;
-            case TOKEN_ARRAY:
-                break;
-            case TOKEN_MAP:
+            case TOKEN_NULL:
+                printf("NULL -> %s\n", (char*)tks->value);
                 break;
         }
         tks = tks->next;
@@ -92,19 +91,17 @@ bool lex_boolean(tokens **tks, char **code)
     return false;
 }
 
-void lex_variable(tokens **tks, char **code)
+bool lex_null(tokens **tks, char **code)
 {
-    char *name = calloc(50, sizeof(char));
-    char *start = name;
-
-    while (**code != ' ' && **code != '\0') {
-        *name = **code;
-        name++;
-        (*code)++;
+    if (**code == 'N') {
+        if (*(*code+1) == 'u' && *(*code+2) == 'l' && *(*code+3) == 'l') {
+            add_token(tks, TOKEN_NULL, "Null");
+            (*code) += 4;
+            return true;
+        }
     }
-    *name = '\0';
-    add_token(tks, TOKEN_VARIABLE_NAME, start);
-    (*code)++;
+
+    return false;
 }
 
 void lex_number(tokens **tks, char **code)
@@ -140,6 +137,59 @@ void lex_string(tokens **tks, char **code)
     (*code)++;
 }
 
+void lex_variable(tokens **tks, char **code)
+{
+    char *name = calloc(50, sizeof(char));
+    char *start = name;
+
+    while (**code != ' ' && **code != '\0') {
+        *name = **code;
+        name++;
+        (*code)++;
+    }
+
+    *name = '\0';
+    add_token(tks, TOKEN_VARIABLE_NAME, start);
+    (*code)++;
+
+    if (**code != '=') {
+        printf("You need = to define a variable for variable: %s\n", start);
+        exit(1);
+    }
+
+    add_token(tks, TOKEN_ASSIGN, *code);
+    (*code) += 2;
+
+    if (isdigit(**code)) {
+        lex_number(tks, code);
+        return;
+    }
+
+    if (isalpha(**code)) {
+        if (!lex_boolean(tks, code) && !lex_null(tks, code)) {
+            printf("You need a valid value for variable: %s\n", start);
+            exit(1);
+        }
+
+        return;
+    }
+
+    switch (**code) {
+        case '\'': {
+            lex_char(tks, code);
+            return;
+        }
+        case '\"': {
+            lex_string(tks, code);
+            return;
+        }
+
+        default:
+            printf("You need a valid value for variable: %s\n", start);
+            exit(1);
+    }
+}
+
 tokens *lexer(char *code)
 {
     tokens *tks = NULL;
@@ -150,38 +200,7 @@ tokens *lexer(char *code)
             continue;
         }
 
-        if (isdigit(*code)) {
-            lex_number(&tks, &code);
-            continue;
-        }
-
-        if (isalpha(*code)) {
-            if (!lex_boolean(&tks, &code)) {
-                lex_variable(&tks, &code);
-                continue;
-            }
-        }
-
-        switch (*code) {
-            case '\'': {
-                lex_char(&tks, &code);
-                break;
-            }
-            case '\"': {
-                lex_string(&tks, &code);
-                break;
-            }
-            case '=': {
-                char assign = *code;
-
-                add_token(&tks, TOKEN_ASSIGN, &assign);
-                code++;
-                break;
-            }
-
-            default:
-                code++;
-        }
+        lex_variable(&tks, &code);
     }
 
     return tks;
