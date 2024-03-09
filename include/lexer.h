@@ -5,9 +5,16 @@ typedef struct tokens tokens;
 enum token_type
 {
     TOKEN_INT,
+    TOKEN_FLOAT,
+    TOKEN_BOOLEAN,
+    TOKEN_NULL,
+    TOKEN_BYTE,
+    TOKEN_ARRAY,
+    TOKEN_MAP,
     TOKEN_CHAR,
     TOKEN_STRING,
-    TOKEN_ASSIGN
+    TOKEN_ASSIGN,
+    TOKEN_VARIABLE_NAME
 };
 
 struct tokens
