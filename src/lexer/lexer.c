@@ -30,14 +30,12 @@ void show_lexer(tokens *tks)
                 break;
             }
             case TOKEN_FLOAT:
-                printf("FLOAT -> %f\n", *(float*)tks->value);
+                printf("FLOAT -> %f\n", *(double*)tks->value);
                 break;
             case TOKEN_BOOLEAN: {
                 printf("BOOLEAN -> %s\n", (char*)tks->value);
                 break;
             }
-            case TOKEN_BYTE:
-                break;
             case TOKEN_NULL:
                 printf("NULL -> %s\n", (char*)tks->value);
                 break;

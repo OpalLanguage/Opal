@@ -14,7 +14,6 @@ add_executable(Opal
         src/lexer/lexers/types/lex_float.c
         src/lexer/lexers/lex_variable.c
         src/lexer/lexers/types/lex_null.c
-        src/lexer/lexers/types/lex_byte.c
         src/lexer/lexers/types/lex_boolean.c
 
 
@@ -22,7 +21,6 @@ add_executable(Opal
 
         include/lexer/lexer.h
         include/lexer/lexers/types/lex_boolean.h
-        include/lexer/lexers/types/lex_byte.h
         include/lexer/lexers/types/lex_char.h
         include/lexer/lexers/types/lex_float.h
         include/lexer/lexers/types/lex_int.h

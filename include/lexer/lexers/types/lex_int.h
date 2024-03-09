@@ -3,6 +3,6 @@
 
 #include "../../lexer.h"
 
-void lex_int(tokens **tks, char **code);
+void lex_int(tokens **tks, double number);
 
 #endif

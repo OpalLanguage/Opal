@@ -2,10 +2,9 @@
 
 #include <stdlib.h>
 
-void lex_int(tokens **tks, char **code)
+void lex_int(tokens **tks, double number)
 {
-    int *number = malloc(sizeof(int));
-    *number = strtol(*code, code, 10);
-    add_token(tks, TOKEN_INT, number);
-    (*code)++;
+    int *int_number = malloc(sizeof(int));
+    *int_number = (int)number;
+    add_token(tks, TOKEN_INT, int_number);
 }
