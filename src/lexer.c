@@ -3,35 +3,38 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 void show_lexer(tokens *tks)
 {
     while (tks != NULL) {
         switch (tks->type) {
             case TOKEN_INT: {
-                printf("INT: %d\n", *(int*)tks->value);
+                printf("INT -> %d\n", *(int*)tks->value);
                 break;
             }
             case TOKEN_CHAR: {
-                printf("CHAR: '%c'\n", *(char*)tks->value);
+                printf("CHAR -> '%c'\n", *(char*)tks->value);
                 break;
             }
             case TOKEN_STRING: {
-                printf("STRING: \"%s\"\n", (char*)tks->value);
+                printf("STRING -> \"%s\"\n", (char*)tks->value);
                 break;
             }
             case TOKEN_ASSIGN: {
-                printf("ASSIGN: =\n");
+                printf("ASSIGN -> =\n");
                 break;
             }
             case TOKEN_VARIABLE_NAME: {
-                printf("VARIABLE_NAME: %s\n", (char*)tks->value);
+                printf("VARIABLE_NAME -> %s\n", (char*)tks->value);
                 break;
             }
             case TOKEN_FLOAT:
                 break;
-            case TOKEN_BOOLEAN:
+            case TOKEN_BOOLEAN: {
+                printf("BOOLEAN -> %s\n", (char*)tks->value);
                 break;
+            }
             case TOKEN_NULL:
                 break;
             case TOKEN_BYTE:
@@ -67,6 +70,26 @@ void add_token(tokens **tks, enum token_type type, void *value)
         }
         current->next = new_token;
     }
+}
+
+bool lex_boolean(tokens **tks, char **code)
+{
+    if (**code == 'T') {
+        if (*(*code+1) == 'r' && *(*code+2) == 'u' && *(*code+3) == 'e') {
+            add_token(tks, TOKEN_BOOLEAN, "True");
+            (*code) += 4;
+            return true;
+        }
+    }
+    else if (**code == 'F') {
+        if (*(*code+1) == 'a' && *(*code+2) == 'l' && *(*code+3) == 's' && *(*code+4) == 'e') {
+            add_token(tks, TOKEN_BOOLEAN, "False");
+            (*code) += 5;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void lex_variable(tokens **tks, char **code)
@@ -133,8 +156,10 @@ tokens *lexer(char *code)
         }
 
         if (isalpha(*code)) {
-            lex_variable(&tks, &code);
-            continue;
+            if (!lex_boolean(&tks, &code)) {
+                lex_variable(&tks, &code);
+                continue;
+            }
         }
 
         switch (*code) {
