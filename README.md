@@ -133,3 +133,68 @@ class Name {
 ```
 
 > **Note:** The Opal parser is designed to handle a wide range of programming constructs, including variables, control structures, functions, and classes. This specification outlines the fundamental elements that the parser can recognize and how it interprets them to form the structure of an Opal program.
+
+# Semantic Analysis for Opal
+
+In an interpreted language like Opal, semantic analysis is crucial for dynamic typing and runtime error detection. This phase ensures that the code adheres to the language's semantics, performing tasks such as type checking, scope resolution, and the identification of semantic errors.
+
+## Type Checking ❌
+
+- **Dynamic Typing:** Opal dynamically checks types at runtime, ensuring that operations are semantically correct for the given types.
+- **Type Inference:** Opal infers the types of expressions to simplify the coding process, reducing the need for explicit type declarations.
+
+## Scope Resolution ❌
+
+- Ensures that variables and functions are declared within the correct scope before use.
+- Manages nested scopes to maintain accessibility and visibility of identifiers.
+
+## Error Reporting ❌
+
+- Generates meaningful error messages for semantic inconsistencies.
+- Indicates precise locations (line and character) for easier debugging.
+
+# Runtime Environment for Opal
+
+Opal's runtime environment is where the source code is directly executed. This environment is responsible for interpreting the code, managing memory, handling execution context, and providing built-in functions and libraries.
+
+## Interpreter ❌
+
+- **Direct Execution:** Source code is executed line-by-line or statement-by-statement, without the need for compilation into machine code.
+- **Just-In-Time Compilation:** For performance-critical sections, Opal might implement JIT compilation, compiling code to machine code on-the-fly.
+
+## Memory Management ❌
+
+- **Garbage Collection:** Automatically manages memory allocation and reclamation to prevent memory leaks and optimize performance.
+- **Dynamic Allocation:** Manages memory allocation for variables and data structures during execution.
+
+## Execution Context ❌
+
+- Maintains the state and context of the program, including call stacks, global and local variables, and function calls.
+
+# Standard Library for Opal
+
+Opal's standard library provides a comprehensive set of functionalities, from basic data structures to networking. It enriches the language, making it more powerful and versatile for various programming tasks.
+
+## Core Data Structures ❌
+
+- Includes arrays, maps, lists, and more, with functions for sorting, searching, and manipulation.
+
+## File and Network I/O ❌
+
+- Offers APIs for file operations and network communications, enabling Opal programs to interact with the external environment.
+
+## Utility Functions ❌
+
+- Provides essential utilities like string manipulation, date/time operations, and mathematical functions.
+
+# Tooling for Opal
+
+The development experience in Opal is enhanced by a suite of tools designed to improve productivity, manage project dependencies, and facilitate debugging.
+
+## Integrated Development Environment (IDE) ❌
+
+- Features such as syntax highlighting, code completion, and integrated debugging tools support development in Opal.
+
+## Package Manager ❌
+
+- Simplifies the management of libraries and dependencies, streamlining the installation and update process.
