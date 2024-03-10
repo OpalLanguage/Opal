@@ -141,6 +141,12 @@ tokens *lexer(char *code)
                 case '}':
                     add_token(&tks, TOKEN_LEFT_BRACE, NULL);
                     break;
+                case '[':
+                    add_token(&tks, TOKEN_RIGHT_BRACKET, NULL);
+                    break;
+                case ']':
+                    add_token(&tks, TOKEN_LEFT_BRACKET, NULL);
+                    break;
                 case ',':
                     add_token(&tks, TOKEN_COMMA, NULL);
                     break;
@@ -160,6 +166,12 @@ tokens *lexer(char *code)
                         break;
                     }
 
+                    if (*(code+1) == '+') {
+                        add_token(&tks, TOKEN_INCR, "++");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_OP_PLUS, NULL);
                     break;
                 case '-':
@@ -169,7 +181,13 @@ tokens *lexer(char *code)
                         break;
                     }
 
-                    add_token(&tks, TOKEN_OP_SUBSTRACT, NULL);
+                    if (*(code+1) == '-') {
+                        add_token(&tks, TOKEN_DECR, "--");
+                        code++;
+                        break;
+                    }
+
+                    add_token(&tks, TOKEN_OP_SUBTRACT, NULL);
                     break;
                 case '*':
                     if (*(code+1) == '=') {
