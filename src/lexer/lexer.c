@@ -137,8 +137,7 @@ tokens *lexer(char *code)
                         add_operator_or_assignment_token(&tks, &code, TOKEN_OP_SUBTRACT, TOKEN_ASSIGN_SUBTRACT, NULL, "-=");
                     }
                     break;
-
-
+                    
                 case '\'': lex_char(&tks, &code); break;
                 case '\"': lex_string(&tks, &code); break;
 
