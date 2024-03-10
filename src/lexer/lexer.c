@@ -33,6 +33,26 @@ void add_token(tokens **tks, const enum token_type type, void *value)
     }
 }
 
+void add_operator_token(tokens **tks, char **code, char expected, enum token_type singleType, enum token_type doubleType, void *singleValue, void *doubleValue)
+{
+    if (*(*code + 1) == expected) {
+        add_token(tks, doubleType, doubleValue);
+        (*code)++;
+    } else {
+        add_token(tks, singleType, singleValue);
+    }
+}
+
+void add_operator_or_assignment_token(tokens **tks, char **code, enum token_type opType, enum token_type assignType, void *opSymbol, void *assignSymbol)
+{
+    if (*(*code + 1) == '=') {
+        add_token(tks, assignType, assignSymbol);
+        (*code)++;
+    } else {
+        add_token(tks, opType, opSymbol);
+    }
+}
+
 void skip_whitespace_and_continue(char **code)
 {
     while (isspace(**code)) (*code)++;
@@ -79,149 +99,49 @@ tokens *lexer(char *code)
         }
         else {
             switch (*code) {
-                case '=':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_OP_EQUAL, "==");
-                        code++;
-                        break;
-                    }
+                case '(': add_token(&tks, TOKEN_RIGHT_PAREN, NULL); break;
+                case ')': add_token(&tks, TOKEN_LEFT_PAREN, NULL); break;
+                case '{': add_token(&tks, TOKEN_RIGHT_BRACE, NULL); break;
+                case '}': add_token(&tks, TOKEN_LEFT_BRACE, NULL); break;
+                case '[': add_token(&tks, TOKEN_RIGHT_BRACKET, NULL); break;
+                case ']': add_token(&tks, TOKEN_LEFT_BRACKET, NULL); break;
+                case ',': add_token(&tks, TOKEN_COMMA, NULL); break;
+                case '.': add_token(&tks, TOKEN_DOT, NULL); break;
+                case ';': add_token(&tks, TOKEN_SEMICOLON, NULL); break;
+                case ':': add_token(&tks, TOKEN_COLON, NULL); break;
 
-                    add_token(&tks, TOKEN_ASSIGN, NULL);
-                    break;
-                case '!':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_OP_NOT_EQUAL, "!=");
-                        code++;
-                        break;
-                    }
+                case '=': add_operator_token(&tks, &code, '=', TOKEN_ASSIGN, TOKEN_OP_EQUAL, NULL, "=="); break;
+                case '!': add_operator_token(&tks, &code, '=', TOKEN_OP_NOT, TOKEN_OP_NOT_EQUAL, NULL, "!="); break;
+                case '<': add_operator_token(&tks, &code, '=', TOKEN_OP_LESS, TOKEN_OP_LESS_EQUAL, NULL, "<="); break;
+                case '>':add_operator_token(&tks, &code, '=', TOKEN_OP_GREATER, TOKEN_OP_GREATER_EQUAL, NULL, ">="); break;
+                case '&': add_operator_token(&tks, &code, '&', TOKEN_ERROR, TOKEN_OP_AND, NULL, "&&"); break;
+                case '|': add_operator_token(&tks, &code, '|', TOKEN_ERROR, TOKEN_OP_OR, NULL, "||"); break;
 
-                    add_token(&tks, TOKEN_OP_NOT, NULL);
-                    break;
-                case '<':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_OP_LESS_EQUAL, "<=");
-                        code++;
-                        break;
-                    }
+                case '*': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MULTIPLY, TOKEN_ASSIGN_MULTIPLY, NULL, "*="); break;
+                case '/': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_DIVIDE, TOKEN_ASSIGN_DIVIDE, NULL, "/="); break;
+                case '%': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MODULO, TOKEN_ASSIGN_MODULO, NULL, "%="); break;
 
-                    add_token(&tks, TOKEN_OP_LESS, NULL);
-                    break;
-                case '>':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_OP_GREATER_EQUAL, ">=");
-                        code++;
-                        break;
-                    }
-
-                    add_token(&tks, TOKEN_OP_GREATER, NULL);
-                    break;
-                case '&':
-                    if (*(code+1) == '&') {
-                        add_token(&tks, TOKEN_OP_AND, "&&");
-                        code++;
-                        break;
-                    }
-                    break;
-                case '|':
-                    if (*(code+1) == '|') {
-                        add_token(&tks, TOKEN_OP_OR, "||");
-                        code++;
-                        break;
-                    }
-                    break;
-                case '(':
-                    add_token(&tks, TOKEN_RIGHT_PAREN, NULL);
-                    break;
-                case ')':
-                    add_token(&tks, TOKEN_LEFT_PAREN, NULL);
-                    break;
-                case '{':
-                    add_token(&tks, TOKEN_RIGHT_BRACE, NULL);
-                    break;
-                case '}':
-                    add_token(&tks, TOKEN_LEFT_BRACE, NULL);
-                    break;
-                case '[':
-                    add_token(&tks, TOKEN_RIGHT_BRACKET, NULL);
-                    break;
-                case ']':
-                    add_token(&tks, TOKEN_LEFT_BRACKET, NULL);
-                    break;
-                case ',':
-                    add_token(&tks, TOKEN_COMMA, NULL);
-                    break;
-                case '.':
-                    add_token(&tks, TOKEN_DOT, NULL);
-                    break;
-                case ';':
-                    add_token(&tks, TOKEN_SEMICOLON, NULL);
-                    break;
-                case ':':
-                    add_token(&tks, TOKEN_COLON, NULL);
-                    break;
                 case '+':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_ASSIGN_ADD, "+=");
-                        code++;
-                        break;
-                    }
-
                     if (*(code+1) == '+') {
                         add_token(&tks, TOKEN_INCR, "++");
                         code++;
-                        break;
+                    } else {
+                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_PLUS, TOKEN_ASSIGN_ADD, NULL, "+=");
                     }
-
-                    add_token(&tks, TOKEN_OP_PLUS, NULL);
                     break;
                 case '-':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_ASSIGN_SUBTRACT, "-=");
-                        code++;
-                        break;
-                    }
-
-                    if (*(code+1) == '-') {
+                    if (*(code + 1) == '-') {
                         add_token(&tks, TOKEN_DECR, "--");
                         code++;
-                        break;
+                    } else {
+                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_SUBTRACT, TOKEN_ASSIGN_SUBTRACT, NULL, "-=");
                     }
+                    break;
 
-                    add_token(&tks, TOKEN_OP_SUBTRACT, NULL);
-                    break;
-                case '*':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_ASSIGN_MULTIPLY, "*=");
-                        code++;
-                        break;
-                    }
 
-                    add_token(&tks, TOKEN_OP_MULTIPLY, NULL);
-                    break;
-                case '/':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_ASSIGN_DIVIDE, "/=");
-                        code++;
-                        break;
-                    }
+                case '\'': lex_char(&tks, &code); break;
+                case '\"': lex_string(&tks, &code); break;
 
-                    add_token(&tks, TOKEN_OP_DIVIDE, NULL);
-                    break;
-                case '%':
-                    if (*(code+1) == '=') {
-                        add_token(&tks, TOKEN_ASSIGN_MODULO, "%=");
-                        code++;
-                        break;
-                    }
-
-                    add_token(&tks, TOKEN_OP_MODULO, NULL);
-                    break;
-                case '\'':
-                    lex_char(&tks, &code);
-                    break;
-                case '\"':
-                    lex_string(&tks, &code);
-                    break;
                 default:
                     fprintf(stderr, "Unrecognized character: %c\n", *code);
                     exit(EXIT_FAILURE);

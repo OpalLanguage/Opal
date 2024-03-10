@@ -51,7 +51,8 @@ enum token_type
     TOKEN_DECR,
 
     TOKEN_NULL,
-    TOKEN_EOF // End of file token
+    TOKEN_EOF,
+    TOKEN_ERROR,
 };
 
 struct tokens
