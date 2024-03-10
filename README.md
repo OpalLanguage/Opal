@@ -8,7 +8,7 @@ Lexer is responsible for breaking down the source code into tokens, each represe
 - **Assignment:** `=`, `+=`, `-=`, `*=`, `/=`, `%=` ✅
 - **Comparison:** `==`, `!=`, `<`, `>`, `<=`, `>=` ✅
 - **Logical:** `&&`, `||`, `!` ✅
-- **Others:** Increment `++`, Decrement `--` ❌
+- **Others:** Increment `++`, Decrement `--` ✅
 
 ## Literals
 
