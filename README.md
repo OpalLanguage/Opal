@@ -8,7 +8,7 @@ Lexer is responsible for breaking down the source code into tokens, each represe
 - **Assignment:** `=`, `+=`, `-=`, `*=`, `/=`, `%=` ✅
 - **Comparison:** `==`, `!=`, `<`, `>`, `<=`, `>=` ✅
 - **Logical:** `&&`, `||`, `!` ✅
-- **Others:** Increment `++`, Decrement `--` ❌
+- **Others:** Increment `++`, Decrement `--` ✅
 
 ## Literals
 
@@ -31,12 +31,12 @@ Identifiers such as variable names, function names, class names, etc., following
 
 ## Delimiters
 
-- Parentheses: `(`, `)` ❌
-- Braces: `{`, `}` ❌
-- Brackets: `[`, `]` ❌
-- Comma: `,` ❌
-- Semicolon: `;` ❌
-- Dot: `.` ❌
+- Parentheses: `(`, `)` ✅
+- Braces: `{`, `}` ✅
+- Brackets: `[`, `]` ✅
+- Comma: `,` ✅
+- Semicolon: `;` ✅
+- Dot: `.` ✅
 
 ## Comments
 
