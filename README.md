@@ -31,12 +31,12 @@ Identifiers such as variable names, function names, class names, etc., following
 
 ## Delimiters
 
-- Parentheses: `(`, `)` ❌
-- Braces: `{`, `}` ❌
-- Brackets: `[`, `]` ❌
-- Comma: `,` ❌
-- Semicolon: `;` ❌
-- Dot: `.` ❌
+- Parentheses: `(`, `)` ✅
+- Braces: `{`, `}` ✅
+- Brackets: `[`, `]` ✅
+- Comma: `,` ✅
+- Semicolon: `;` ✅
+- Dot: `.` ✅
 
 ## Comments
 
