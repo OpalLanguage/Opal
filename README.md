@@ -5,7 +5,6 @@
 - Assignment: `=`, `+=`, `-=`, `*=`, `/=`, `%=` ❌
 - Comparison: `==`, `!=`, `<`, `>`, `<=`, `>=` ❌
 - Logical: `&&`, `||`, `!` ❌
-- Bitwise: `&`, `|`, `^`, `~`, `<<`, `>>` ❌
 - Others: Increment `++`, Decrement `--` ❌
 
 ## Literals
