@@ -60,7 +60,7 @@ tokens *lexer(char *code)
                 add_token(&tks, TOKEN_IDENTIFIER, strdup(buffer));
             }
         }
-        else if (isdigit(*code) || *code == '.') {
+        else if (isdigit(*code)) {
             char *end;
             const double value = strtod(code, &end);
 
@@ -80,7 +80,78 @@ tokens *lexer(char *code)
         else {
             switch (*code) {
                 case '=':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_OP_EQUAL, "==");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_ASSIGN, NULL);
+                    break;
+                case '!':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_OP_NOT_EQUAL, "!=");
+                        code++;
+                        break;
+                    }
+
+                    add_token(&tks, TOKEN_OP_NOT, NULL);
+                    break;
+                case '<':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_OP_LESS_EQUAL, "<=");
+                        code++;
+                        break;
+                    }
+
+                    add_token(&tks, TOKEN_OP_LESS, NULL);
+                    break;
+                case '>':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_OP_GREATER_EQUAL, ">=");
+                        code++;
+                        break;
+                    }
+
+                    add_token(&tks, TOKEN_OP_GREATER, NULL);
+                    break;
+                case '&':
+                    if (*(code+1) == '&') {
+                        add_token(&tks, TOKEN_OP_AND, "&&");
+                        code++;
+                        break;
+                    }
+                    break;
+                case '|':
+                    if (*(code+1) == '|') {
+                        add_token(&tks, TOKEN_OP_OR, "||");
+                        code++;
+                        break;
+                    }
+                    break;
+                case '(':
+                    add_token(&tks, TOKEN_RIGHT_PAREN, NULL);
+                    break;
+                case ')':
+                    add_token(&tks, TOKEN_LEFT_PAREN, NULL);
+                    break;
+                case '{':
+                    add_token(&tks, TOKEN_RIGHT_BRACE, NULL);
+                    break;
+                case '}':
+                    add_token(&tks, TOKEN_LEFT_BRACE, NULL);
+                    break;
+                case ',':
+                    add_token(&tks, TOKEN_COMMA, NULL);
+                    break;
+                case '.':
+                    add_token(&tks, TOKEN_DOT, NULL);
+                    break;
+                case ';':
+                    add_token(&tks, TOKEN_SEMICOLON, NULL);
+                    break;
+                case ':':
+                    add_token(&tks, TOKEN_COLON, NULL);
                     break;
                 case '+':
                     add_token(&tks, TOKEN_OP_PLUS, NULL);
