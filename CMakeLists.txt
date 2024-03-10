@@ -44,4 +44,4 @@ add_executable(Opal
         include/parser/parsers/parse_switch.h
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
-        include/parser/parsers/parse_class.h)
+        include/parser/parsers/parse_class.h src/lexer/utils.c include/lexer/utils.h)

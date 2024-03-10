@@ -1,6 +1,7 @@
 #include "../include/console.h"
 #include "../include/file_loader.h"
 #include "../include/lexer/lexer.h"
+#include "../include/lexer/utils.h"
 
 #include <stdlib.h>
 
