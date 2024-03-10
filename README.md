@@ -27,7 +27,7 @@ Lexer is responsible for breaking down the source code into tokens, each represe
 
 ## Identifiers
 
-Identifiers such as variable names, function names, class names, etc., following the naming conventions of Opal.
+Identifiers such as variable names, function names, class names, etc., following the naming conventions of Opal. ✅
 
 ## Delimiters
 
