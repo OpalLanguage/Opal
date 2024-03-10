@@ -11,12 +11,14 @@ enum token_type
     TOKEN_STRING,
     TOKEN_ASSIGN,
     TOKEN_VARIABLE_NAME,
+
     TOKEN_OP_PLUS,
     TOKEN_OP_MINUS,
     TOKEN_OP_MULTIPLY,
     TOKEN_OP_DIVIDE,
-    TOKEN_NULL,
-    TOKEN_INVALID
+    TOKEN_OP_MODULO,
+
+    TOKEN_NULL
 };
 
 struct tokens

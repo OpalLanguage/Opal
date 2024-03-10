@@ -20,6 +20,8 @@ const char *get_operator_as_string(enum token_type type)
             return "*";
         case TOKEN_OP_DIVIDE:
             return "/";
+        case TOKEN_OP_MODULO:
+            return "%";
         default:
             return NULL;
     }
@@ -150,6 +152,9 @@ tokens *lexer(char *code)
                     break;
                 case '/':
                     add_token(&tks, TOKEN_OP_DIVIDE, NULL);
+                    break;
+                case '%':
+                    add_token(&tks, TOKEN_OP_MODULO, NULL);
                     break;
                 case '\'':
                     lex_char(&tks, &code);
