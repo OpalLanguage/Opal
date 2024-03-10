@@ -5,7 +5,7 @@ Lexer is responsible for breaking down the source code into tokens, each represe
 ## Operators
 
 - **Arithmetic:** `+`, `-`, `*`, `/`, `%` ✅
-- **Assignment:** `=`, `+=`, `-=`, `*=`, `/=`, `%=` ❌
+- **Assignment:** `=`, `+=`, `-=`, `*=`, `/=`, `%=` ✅
 - **Comparison:** `==`, `!=`, `<`, `>`, `<=`, `>=` ✅
 - **Logical:** `&&`, `||`, `!` ✅
 - **Others:** Increment `++`, Decrement `--` ❌
