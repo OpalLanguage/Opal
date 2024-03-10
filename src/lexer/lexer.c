@@ -1,16 +1,29 @@
 #include "../../include/lexer/lexer.h"
-#include "../../include/lexer/lexers/lex_float.h"
 #include "../../include/lexer/lexers/lex_string.h"
 #include "../../include/lexer/lexers/lex_char.h"
 #include "../../include/lexer/lexers/lex_null.h"
 #include "../../include/lexer/lexers/lex_boolean.h"
-#include "../../include/lexer/lexers/lex_int.h"
 
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
+
+const char *get_operator_as_string(enum token_type type)
+{
+    switch (type) {
+        case TOKEN_OP_PLUS:
+            return "+";
+        case TOKEN_OP_MINUS:
+            return "-";
+        case TOKEN_OP_MULTIPLY:
+            return "*";
+        case TOKEN_OP_DIVIDE:
+            return "/";
+        default:
+            return NULL;
+    }
+}
 
 void show_lexer(tokens *tks)
 {
@@ -45,12 +58,15 @@ void show_lexer(tokens *tks)
             case TOKEN_ASSIGN:
                 printf("ASSIGN -> =\n");
                 break;
+            default:
+                printf("OPERATOR -> %s\n", get_operator_as_string(tks->type));
+                break;
         }
         tks = tks->next;
     }
 }
 
-void add_token(tokens **tks, enum token_type type, void *value)
+void add_token(tokens **tks, const enum token_type type, void *value)
 {
     tokens *new_token = (tokens*)malloc(sizeof(tokens));
     if (new_token == NULL) {
@@ -74,6 +90,11 @@ void add_token(tokens **tks, enum token_type type, void *value)
     }
 }
 
+void skip_whitespace_and_continue(char **code)
+{
+    while (isspace(**code)) (*code)++;
+}
+
 tokens *lexer(char *code)
 {
     tokens *tks = NULL;
@@ -86,74 +107,64 @@ tokens *lexer(char *code)
 
         if (isalpha(*code)) {
             if (!lex_boolean(&tks, &code) && !lex_null(&tks, &code)) {
-                char *name = calloc(50, sizeof(char));
-                char *start = name;
-
-                while (*code != ' ' && *code != '\0') {
-                    *name = *code;
-                    name++;
-                    code++;
+                char buffer[50];
+                int i = 0;
+                while (isalnum(*code) || *code == '_') {
+                    buffer[i++] = *code++;
                 }
-                *name = '\0';
 
-                add_token(&tks, TOKEN_VARIABLE_NAME, start);
-                while (isspace(*code)) code++;
-                continue;
+                buffer[i] = '\0';
+                add_token(&tks, TOKEN_VARIABLE_NAME, strdup(buffer));
             }
-
-            continue;
         }
-
-        if (*code == '=') {
-            char *value = malloc(sizeof(char));
-            if (value == NULL) {
-                perror("malloc");
-                exit(1);
-            }
-
-            *value = '=';
-
-            add_token(&tks, TOKEN_ASSIGN, value);
-            code++;
-            while (isspace(*code)) code++;
-            continue;
-        }
-
-        if (isdigit(*code)) {
+        else if (isdigit(*code) || *code == '.') {
             char *end;
-            double number = strtod(code, &end);
-            bool isFloat = (*end != *code && (strchr(code, '.') != NULL));
+            const double value = strtod(code, &end);
 
-            if (isFloat && floor(number) == number) {
-                isFloat = false;
+            if (code != end) {
+                if (strchr(code, '.') != NULL) {
+                    double *floatVal = malloc(sizeof(double));
+                    *floatVal = value;
+                    add_token(&tks, TOKEN_FLOAT, floatVal);
+                } else {
+                    int *intVal = malloc(sizeof(int));
+                    *intVal = (int)value;
+                    add_token(&tks, TOKEN_INT, intVal);
+                }
+                code = end;
             }
-
-            if (isFloat) {
-                lex_float(&tks, number);
+        }
+        else {
+            switch (*code) {
+                case '=':
+                    add_token(&tks, TOKEN_ASSIGN, NULL);
+                    break;
+                case '+':
+                    add_token(&tks, TOKEN_OP_PLUS, NULL);
+                    break;
+                case '-':
+                    add_token(&tks, TOKEN_OP_MINUS, NULL);
+                    break;
+                case '*':
+                    add_token(&tks, TOKEN_OP_MULTIPLY, NULL);
+                    break;
+                case '/':
+                    add_token(&tks, TOKEN_OP_DIVIDE, NULL);
+                    break;
+                case '\'':
+                    lex_char(&tks, &code);
+                    break;
+                case '\"':
+                    lex_string(&tks, &code);
+                    break;
+                default:
+                    fprintf(stderr, "Unrecognized character: %c\n", *code);
+                    exit(EXIT_FAILURE);
             }
-            else {
-                int intValue = (int)number;
-                lex_int(&tks, intValue);
-            }
-            code = end;
-            continue;
+            code++;
         }
 
-        switch (*code) {
-            case '\'': {
-                lex_char(&tks, &code);
-                while (isspace(*code)) code++;
-                continue;
-            }
-            case '\"': {
-                lex_string(&tks, &code);
-                while (isspace(*code)) code++;
-                continue;
-            }
-
-            default:
-                while (isspace(*code)) code++;
-        }
+        skip_whitespace_and_continue(&code);
     }
 
     return tks;

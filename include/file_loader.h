@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-char *getCode(char *path);
+char *get_code(char *path);
 
 #endif

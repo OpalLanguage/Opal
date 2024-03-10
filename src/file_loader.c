@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *getCode(char *path)
+char *get_code(char *path)
 {
     FILE *file = fopen(path, "rb");
     if (file == NULL) {
         perror("Error by opening file");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     fseek(file, 0, SEEK_END);
@@ -17,7 +17,7 @@ char *getCode(char *path)
     if (content == NULL) {
         perror("malloc");
         fclose(file);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     fread(content, 1, length, file);

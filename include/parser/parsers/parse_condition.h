@@ -1,0 +1,4 @@
+#ifndef OPAL_PARSE_CONDITION_H
+#define OPAL_PARSE_CONDITION_H
+
+#endif
