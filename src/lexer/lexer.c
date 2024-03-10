@@ -43,6 +43,7 @@ void show_lexer(tokens *tks)
                 printf("NULL -> %s\n", (char*)tks->value);
                 break;
             case TOKEN_ASSIGN:
+                printf("ASSIGN -> =\n");
                 break;
         }
         tks = tks->next;
@@ -104,9 +105,16 @@ tokens *lexer(char *code)
         }
 
         if (*code == '=') {
-            char assign = *code;
+            char *value = malloc(sizeof(char));
+            if (value == NULL) {
+                perror("malloc");
+                exit(1);
+            }
 
-            add_token(&tks, TOKEN_ASSIGN, &assign);
+            *value = '=';
+
+            add_token(&tks, TOKEN_ASSIGN, value);
+            code++;
             while (isspace(*code)) code++;
             continue;
         }
