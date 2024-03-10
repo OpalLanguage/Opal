@@ -7,7 +7,7 @@ char get_operator_as_string(enum token_type type)
     switch (type) {
         case TOKEN_OP_PLUS:
             return '+';
-        case TOKEN_OP_MINUS:
+        case TOKEN_OP_SUBSTRACT:
             return '-';
         case TOKEN_OP_MULTIPLY:
             return '*';

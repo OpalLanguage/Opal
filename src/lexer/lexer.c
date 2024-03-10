@@ -154,18 +154,48 @@ tokens *lexer(char *code)
                     add_token(&tks, TOKEN_COLON, NULL);
                     break;
                 case '+':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_ASSIGN_ADD, "+=");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_OP_PLUS, NULL);
                     break;
                 case '-':
-                    add_token(&tks, TOKEN_OP_MINUS, NULL);
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_ASSIGN_SUBTRACT, "-=");
+                        code++;
+                        break;
+                    }
+
+                    add_token(&tks, TOKEN_OP_SUBSTRACT, NULL);
                     break;
                 case '*':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_ASSIGN_MULTIPLY, "*=");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_OP_MULTIPLY, NULL);
                     break;
                 case '/':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_ASSIGN_DIVIDE, "/=");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_OP_DIVIDE, NULL);
                     break;
                 case '%':
+                    if (*(code+1) == '=') {
+                        add_token(&tks, TOKEN_ASSIGN_MODULO, "%=");
+                        code++;
+                        break;
+                    }
+
                     add_token(&tks, TOKEN_OP_MODULO, NULL);
                     break;
                 case '\'':
