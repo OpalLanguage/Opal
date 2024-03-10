@@ -9,6 +9,7 @@ add_executable(Opal
         src/file_loader.c
 
         src/lexer/lexer.c
+        src/lexer/utils.c
         src/lexer/lexers/lex_char.c
         src/lexer/lexers/lex_string.c
         src/lexer/lexers/lex_int.c
@@ -30,6 +31,7 @@ add_executable(Opal
         include/file_loader.h
 
         include/lexer/lexer.h
+        include/lexer/utils.h
         include/lexer/lexers/lex_boolean.h
         include/lexer/lexers/lex_char.h
         include/lexer/lexers/lex_float.h
@@ -44,4 +46,4 @@ add_executable(Opal
         include/parser/parsers/parse_switch.h
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
-        include/parser/parsers/parse_class.h src/lexer/utils.c include/lexer/utils.h)
+        include/parser/parsers/parse_class.h)
