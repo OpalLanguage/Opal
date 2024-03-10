@@ -18,7 +18,28 @@ enum token_type
     TOKEN_OP_DIVIDE,
     TOKEN_OP_MODULO,
 
-    TOKEN_NULL
+    TOKEN_OP_EQUAL,
+    TOKEN_OP_NOT_EQUAL,
+    TOKEN_OP_GREATER,
+    TOKEN_OP_GREATER_EQUAL,
+    TOKEN_OP_LESS,
+    TOKEN_OP_LESS_EQUAL,
+
+    TOKEN_OP_AND,
+    TOKEN_OP_OR,
+    TOKEN_OP_NOT,
+
+    TOKEN_LEFT_PAREN, // (
+    TOKEN_RIGHT_PAREN, // )
+    TOKEN_LEFT_BRACE, // {
+    TOKEN_RIGHT_BRACE, // }
+    TOKEN_COMMA, // ,
+    TOKEN_DOT, // .
+    TOKEN_SEMICOLON, // ;
+    TOKEN_COLON, // :
+
+    TOKEN_NULL,
+    TOKEN_EOF // End of file token
 };
 
 struct tokens
