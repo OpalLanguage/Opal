@@ -36,8 +36,8 @@ void show_lexer(tokens *tks)
                 printf("STRING -> \"%s\"\n", (char*)tks->value);
                 break;
             }
-            case TOKEN_VARIABLE_NAME: {
-                printf("VARIABLE_NAME -> %s\n", (char*)tks->value);
+            case TOKEN_IDENTIFIER: {
+                printf("IDENTIFIER -> %s\n", (char*)tks->value);
                 break;
             }
             case TOKEN_FLOAT:

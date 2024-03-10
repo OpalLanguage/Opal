@@ -57,7 +57,7 @@ tokens *lexer(char *code)
                 }
 
                 buffer[i] = '\0';
-                add_token(&tks, TOKEN_VARIABLE_NAME, strdup(buffer));
+                add_token(&tks, TOKEN_IDENTIFIER, strdup(buffer));
             }
         }
         else if (isdigit(*code) || *code == '.') {
