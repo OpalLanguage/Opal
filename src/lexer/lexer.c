@@ -1,9 +1,16 @@
 #include "../../include/lexer/lexer.h"
-#include "../../include/lexer/lexers/lex_variable.h"
+#include "../../include/lexer/lexers/lex_float.h"
+#include "../../include/lexer/lexers/lex_string.h"
+#include "../../include/lexer/lexers/lex_char.h"
+#include "../../include/lexer/lexers/lex_null.h"
+#include "../../include/lexer/lexers/lex_boolean.h"
+#include "../../include/lexer/lexers/lex_int.h"
 
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 
 void show_lexer(tokens *tks)
 {
@@ -76,7 +83,69 @@ tokens *lexer(char *code)
             continue;
         }
 
-        lex_variable(&tks, &code);
+        if (isalpha(*code)) {
+            if (!lex_boolean(&tks, &code) && !lex_null(&tks, &code)) {
+                char *name = calloc(50, sizeof(char));
+                char *start = name;
+
+                while (*code != ' ' && *code != '\0') {
+                    *name = *code;
+                    name++;
+                    code++;
+                }
+                *name = '\0';
+
+                add_token(&tks, TOKEN_VARIABLE_NAME, start);
+                while (isspace(*code)) code++;
+                continue;
+            }
+
+            continue;
+        }
+
+        if (*code == '=') {
+            char assign = *code;
+
+            add_token(&tks, TOKEN_ASSIGN, &assign);
+            while (isspace(*code)) code++;
+            continue;
+        }
+
+        if (isdigit(*code)) {
+            char *end;
+            double number = strtod(code, &end);
+            bool isFloat = (*end != *code && (strchr(code, '.') != NULL));
+
+            if (isFloat && floor(number) == number) {
+                isFloat = false;
+            }
+
+            if (isFloat) {
+                lex_float(&tks, number);
+            }
+            else {
+                int intValue = (int)number;
+                lex_int(&tks, intValue);
+            }
+            code = end;
+            continue;
+        }
+
+        switch (*code) {
+            case '\'': {
+                lex_char(&tks, &code);
+                while (isspace(*code)) code++;
+                continue;
+            }
+            case '\"': {
+                lex_string(&tks, &code);
+                while (isspace(*code)) code++;
+                continue;
+            }
+
+            default:
+                while (isspace(*code)) code++;
+        }
     }
 
     return tks;

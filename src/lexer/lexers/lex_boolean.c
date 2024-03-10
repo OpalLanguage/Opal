@@ -1,4 +1,4 @@
-#include "../../../../include/lexer/lexers/types/lex_boolean.h"
+#include "../../../include/lexer/lexers/lex_boolean.h"
 
 bool lex_boolean(tokens **tks, char **code)
 {

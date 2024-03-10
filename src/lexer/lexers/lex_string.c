@@ -1,4 +1,4 @@
-#include "../../../../include/lexer/lexers/types/lex_string.h"
+#include "../../../include/lexer/lexers/lex_string.h"
 
 #include <stdlib.h>
 

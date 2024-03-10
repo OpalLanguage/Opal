@@ -1,4 +1,4 @@
-#include "../../../../include/lexer/lexers/types/lex_null.h"
+#include "../../../include/lexer/lexers/lex_null.h"
 
 bool lex_null(tokens **tks, char **code)
 {
