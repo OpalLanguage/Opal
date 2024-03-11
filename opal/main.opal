@@ -1,15 +1,15 @@
 class MyAge {
   defaultAge = 15
 
-  fun checkAge() {
+  func checkAge() {
     if (this.defaultAge < 18) {
-      return false
+      return False
     }
 
-    return true
+    return True
   }
 
-  fun newAge() {
-    defaultAge++
+  func newAge() {
+    this.defaultAge++
   }
 }

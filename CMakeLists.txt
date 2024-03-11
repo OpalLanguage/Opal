@@ -19,6 +19,7 @@ add_executable(Opal
         src/lexer/lexers/lex_control_flow.c
         src/lexer/lexers/lex_declaration.c
         src/lexer/lexers/lex_misc.c
+        src/lexer/lexers/lex_comment.c
 
         src/parser/parser.c
         src/parser/parsers/parse_switch.c
@@ -44,6 +45,7 @@ add_executable(Opal
         include/lexer/lexers/lex_control_flow.h
         include/lexer/lexers/lex_declaration.h
         include/lexer/lexers/lex_misc.h
+        include/lexer/lexers/lex_comment.h
 
         include/parser/parser.h
         include/parser/parsers/parse_variable.h

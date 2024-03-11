@@ -8,6 +8,7 @@
 #include "../../include/lexer/lexers/lex_misc.h"
 #include "../../include/lexer/lexers/lex_int.h"
 #include "../../include/lexer/lexers/lex_float.h"
+#include "../../include/lexer/lexers/lex_comment.h"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -70,6 +71,11 @@ tokens *lexer(char *code)
     while (*code != '\0') {
         if (isspace(*code)) {
             code++;
+            continue;
+        }
+
+        if (*code == '/') {
+            lex_comment(&code);
             continue;
         }
 
