@@ -77,6 +77,9 @@ void show_lexer(tokens *tks)
             case TOKEN_IF:
                 printf("CONTROL FLOW -> if\n");
                 break;
+            case TOKEN_ELSEIF:
+                printf("CONTROL FLOW -> elseif\n");
+                break;
             case TOKEN_ELSE:
                 printf("CONTROL FLOW -> else\n");
                 break;

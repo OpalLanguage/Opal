@@ -7,6 +7,7 @@ add_executable(Opal
         src/main.c
         src/console.c
         src/file_loader.c
+        src/perf_test.c
 
         src/lexer/lexer.c
         src/lexer/utils.c
@@ -33,6 +34,7 @@ add_executable(Opal
 
         include/console.h
         include/file_loader.h
+        include/perf_test.h
 
         include/lexer/lexer.h
         include/lexer/utils.h
@@ -54,4 +56,4 @@ add_executable(Opal
         include/parser/parsers/parse_switch.h
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
-        include/parser/parsers/parse_class.h)
+        include/parser/parsers/parse_class.h )
