@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-char get_operator_as_string(enum token_type type)
+char get_operator_as_string(token_type type)
 {
     switch (type) {
         case TOKEN_OP_PLUS:
@@ -127,6 +127,9 @@ void show_lexer(tokens *tks)
                 break;
             case TOKEN_SUPER:
                 printf("MISC -> super\n");
+                break;
+            case TOKEN_EOF:
+                printf("End of file.\n");
                 break;
             default:
                 if (tks->value == NULL) {

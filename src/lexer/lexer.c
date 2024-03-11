@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void add_token(tokens **tks, const enum token_type type, void *value)
+void add_token(tokens **tks, const token_type type, void *value)
 {
     tokens *new_token = (tokens*)malloc(sizeof(tokens));
     if (new_token == NULL) {
@@ -39,7 +39,7 @@ void add_token(tokens **tks, const enum token_type type, void *value)
     }
 }
 
-void add_operator_token(tokens **tks, char **code, char expected, enum token_type singleType, enum token_type doubleType, void *doubleValue)
+void add_operator_token(tokens **tks, char **code, char expected, token_type singleType, token_type doubleType, void *doubleValue)
 {
     if (*(*code + 1) == expected) {
         add_token(tks, doubleType, doubleValue);
@@ -49,7 +49,7 @@ void add_operator_token(tokens **tks, char **code, char expected, enum token_typ
     }
 }
 
-void add_operator_or_assignment_token(tokens **tks, char **code, enum token_type opType, enum token_type assignType, void *assignSymbol)
+void add_operator_or_assignment_token(tokens **tks, char **code, token_type opType, token_type assignType, void *assignSymbol)
 {
     if (*(*code + 1) == '=') {
         add_token(tks, assignType, assignSymbol);
@@ -163,5 +163,6 @@ tokens *lexer(char *code)
         skip_whitespace_and_continue(&code);
     }
 
+    add_token(&tks, TOKEN_EOF, NULL);
     return tks;
 }
