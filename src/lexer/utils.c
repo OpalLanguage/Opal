@@ -74,6 +74,33 @@ void show_lexer(tokens *tks)
             case TOKEN_ASSIGN:
                 printf("ASSIGN -> =\n");
                 break;
+            case TOKEN_IF:
+                printf("CONTROL FLOW -> if\n");
+                break;
+            case TOKEN_ELSE:
+                printf("CONTROL FLOW -> else\n");
+                break;
+            case TOKEN_FOR:
+                printf("CONTROL FLOW -> for\n");
+                break;
+            case TOKEN_WHILE:
+                printf("CONTROL FLOW -> while\n");
+                break;
+            case TOKEN_SWITCH:
+                printf("CONTROL FLOW -> switch\n");
+                break;
+            case TOKEN_CASE:
+                printf("CONTROL FLOW -> case\n");
+                break;
+            case TOKEN_DEFAULT:
+                printf("CONTROL FLOW -> default\n");
+                break;
+            case TOKEN_BREAK:
+                printf("CONTROL FLOW -> break\n");
+                break;
+            case TOKEN_CONTINUE:
+                printf("CONTROL FLOW -> continue\n");
+                break;
             default:
                 if (tks->value == NULL) {
                     printf("OPERATOR -> %c\n", get_operator_as_string(tks->type));

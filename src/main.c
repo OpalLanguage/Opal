@@ -7,8 +7,8 @@
 
 int main(void)
 {
-    //char *code = asker();
-    char *code = get_code("../opal/main.opal");
+    char *code = asker();
+    //char *code = get_code("../opal/main.opal");
     tokens *tks = lexer(code);
 
     show_lexer(tks);

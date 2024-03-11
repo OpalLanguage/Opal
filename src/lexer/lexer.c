@@ -3,6 +3,7 @@
 #include "../../include/lexer/lexers/lex_char.h"
 #include "../../include/lexer/lexers/lex_null.h"
 #include "../../include/lexer/lexers/lex_boolean.h"
+#include "../../include/lexer/lexers/lex_control_flow.h"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -69,7 +70,7 @@ tokens *lexer(char *code)
         }
 
         if (isalpha(*code)) {
-            if (!lex_boolean(&tks, &code) && !lex_null(&tks, &code)) {
+            if (!lex_boolean(&tks, &code) && !lex_null(&tks, &code) && !lex_control_flow(&tks, &code)) {
                 char buffer[50];
                 int i = 0;
                 while (isalnum(*code) || *code == '_') {
