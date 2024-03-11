@@ -21,7 +21,7 @@ Lexer is responsible for breaking down the source code into tokens, each represe
 
 ## Keywords
 
-- **Control Flow:** `if`, `else`, `for`, `while`, `switch`, `case`, `default`, `break`, `continue` ❌
+- **Control Flow:** `if`, `elseif`, `else`, `for`, `while`, `switch`, `case`, `default`, `break`, `continue` ❌
 - **Declaration/Definition:** `class`, `enum`, `func`, `const` ❌
 - **Miscellaneous:** `return`, `new`, `this`, `super` ❌
 
