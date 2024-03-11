@@ -5,6 +5,9 @@
 #include "../../include/lexer/lexers/lex_boolean.h"
 #include "../../include/lexer/lexers/lex_control_flow.h"
 #include "../../include/lexer/lexers/lex_declaration.h"
+#include "../../include/lexer/lexers/lex_misc.h"
+#include "../../include/lexer/lexers/lex_int.h"
+#include "../../include/lexer/lexers/lex_float.h"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -74,7 +77,8 @@ tokens *lexer(char *code)
             if (!lex_boolean(&tks, &code)
             && !lex_null(&tks, &code)
             && !lex_control_flow(&tks, &code)
-            && !lex_declaration(&tks, &code)) {
+            && !lex_declaration(&tks, &code)
+            && !lex_misc(&tks, &code)) {
                 char buffer[50];
                 int i = 0;
                 while (isalnum(*code) || *code == '_') {
@@ -85,31 +89,28 @@ tokens *lexer(char *code)
                 add_token(&tks, TOKEN_IDENTIFIER, strdup(buffer));
             }
         }
-        else if (isdigit(*code)) {
+        else if (isdigit(*code) || (*code == '.' && isdigit(*(code + 1)))) {
             char *end;
             const double value = strtod(code, &end);
 
             if (code != end) {
-                if (strchr(code, '.') != NULL) {
-                    double *floatVal = malloc(sizeof(double));
-                    *floatVal = value;
-                    add_token(&tks, TOKEN_FLOAT, floatVal);
+                char *dotPos = strchr(code, '.');
+                if (dotPos != NULL && dotPos < end) {
+                    lex_float(&tks, value);
                 } else {
-                    int *intVal = malloc(sizeof(int));
-                    *intVal = (int)value;
-                    add_token(&tks, TOKEN_INT, intVal);
+                    lex_int(&tks, value);
                 }
                 code = end;
             }
         }
         else {
             switch (*code) {
-                case '(': add_token(&tks, TOKEN_RIGHT_PAREN, NULL); break;
-                case ')': add_token(&tks, TOKEN_LEFT_PAREN, NULL); break;
-                case '{': add_token(&tks, TOKEN_RIGHT_BRACE, NULL); break;
-                case '}': add_token(&tks, TOKEN_LEFT_BRACE, NULL); break;
-                case '[': add_token(&tks, TOKEN_RIGHT_BRACKET, NULL); break;
-                case ']': add_token(&tks, TOKEN_LEFT_BRACKET, NULL); break;
+                case '(': add_token(&tks, TOKEN_LEFT_PAREN, NULL); break;
+                case ')': add_token(&tks, TOKEN_RIGHT_PAREN, NULL); break;
+                case '{': add_token(&tks, TOKEN_LEFT_BRACE, NULL); break;
+                case '}': add_token(&tks, TOKEN_RIGHT_BRACE, NULL); break;
+                case '[': add_token(&tks, TOKEN_LEFT_BRACKET, NULL); break;
+                case ']': add_token(&tks, TOKEN_RIGHT_BRACKET, NULL); break;
                 case ',': add_token(&tks, TOKEN_COMMA, NULL); break;
                 case '.': add_token(&tks, TOKEN_DOT, NULL); break;
                 case ';': add_token(&tks, TOKEN_SEMICOLON, NULL); break;

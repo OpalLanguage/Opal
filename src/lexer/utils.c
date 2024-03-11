@@ -21,17 +21,17 @@ char get_operator_as_string(enum token_type type)
             return '>';
         case TOKEN_OP_LESS:
             return '<';
-        case TOKEN_RIGHT_PAREN:
-            return '(';
         case TOKEN_LEFT_PAREN:
+            return '(';
+        case TOKEN_RIGHT_PAREN:
             return ')';
-        case TOKEN_RIGHT_BRACE:
-            return '{';
         case TOKEN_LEFT_BRACE:
+            return '{';
+        case TOKEN_RIGHT_BRACE:
             return '}';
-        case TOKEN_RIGHT_BRACKET:
-            return '[';
         case TOKEN_LEFT_BRACKET:
+            return '[';
+        case TOKEN_RIGHT_BRACKET:
             return ']';
         case TOKEN_COMMA:
             return ',';
@@ -112,6 +112,18 @@ void show_lexer(tokens *tks)
                 break;
             case TOKEN_CONST:
                 printf("DECLARATION -> const\n");
+                break;
+            case TOKEN_RETURN:
+                printf("MISC -> return\n");
+                break;
+            case TOKEN_NEW:
+                printf("MISC -> new\n");
+                break;
+            case TOKEN_THIS:
+                printf("MISC -> this\n");
+                break;
+            case TOKEN_SUPER:
+                printf("MISC -> super\n");
                 break;
             default:
                 if (tks->value == NULL) {

@@ -16,6 +16,9 @@ add_executable(Opal
         src/lexer/lexers/lex_float.c
         src/lexer/lexers/lex_null.c
         src/lexer/lexers/lex_boolean.c
+        src/lexer/lexers/lex_control_flow.c
+        src/lexer/lexers/lex_declaration.c
+        src/lexer/lexers/lex_misc.c
 
         src/parser/parser.c
         src/parser/parsers/parse_switch.c
@@ -38,6 +41,9 @@ add_executable(Opal
         include/lexer/lexers/lex_int.h
         include/lexer/lexers/lex_null.h
         include/lexer/lexers/lex_string.h
+        include/lexer/lexers/lex_control_flow.h
+        include/lexer/lexers/lex_declaration.h
+        include/lexer/lexers/lex_misc.h
 
         include/parser/parser.h
         include/parser/parsers/parse_variable.h
@@ -46,4 +52,4 @@ add_executable(Opal
         include/parser/parsers/parse_switch.h
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
-        include/parser/parsers/parse_class.h src/lexer/lexers/lex_control_flow.c include/lexer/lexers/lex_control_flow.h src/lexer/lexers/lex_declaration.c include/lexer/lexers/lex_declaration.h)
+        include/parser/parsers/parse_class.h)
