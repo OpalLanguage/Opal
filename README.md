@@ -40,8 +40,8 @@ Identifiers such as variable names, function names, class names, etc., following
 
 ## Comments
 
-- Single-line: `//` ❌
-- Multi-line: `/* */` ❌
+- Single-line: `//` ✅
+- Multi-line: `/* */` ✅
 
 ## Whitespace
 
