@@ -101,6 +101,18 @@ void show_lexer(tokens *tks)
             case TOKEN_CONTINUE:
                 printf("CONTROL FLOW -> continue\n");
                 break;
+            case TOKEN_CLASS:
+                printf("DECLARATION -> class\n");
+                break;
+            case TOKEN_ENUM:
+                printf("DECLARATION -> enum\n");
+                break;
+            case TOKEN_FUNC:
+                printf("DECLARATION -> func\n");
+                break;
+            case TOKEN_CONST:
+                printf("DECLARATION -> const\n");
+                break;
             default:
                 if (tks->value == NULL) {
                     printf("OPERATOR -> %c\n", get_operator_as_string(tks->type));

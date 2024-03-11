@@ -4,6 +4,7 @@
 #include "../../include/lexer/lexers/lex_null.h"
 #include "../../include/lexer/lexers/lex_boolean.h"
 #include "../../include/lexer/lexers/lex_control_flow.h"
+#include "../../include/lexer/lexers/lex_declaration.h"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -34,23 +35,23 @@ void add_token(tokens **tks, const enum token_type type, void *value)
     }
 }
 
-void add_operator_token(tokens **tks, char **code, char expected, enum token_type singleType, enum token_type doubleType, void *singleValue, void *doubleValue)
+void add_operator_token(tokens **tks, char **code, char expected, enum token_type singleType, enum token_type doubleType, void *doubleValue)
 {
     if (*(*code + 1) == expected) {
         add_token(tks, doubleType, doubleValue);
         (*code)++;
     } else {
-        add_token(tks, singleType, singleValue);
+        add_token(tks, singleType, NULL);
     }
 }
 
-void add_operator_or_assignment_token(tokens **tks, char **code, enum token_type opType, enum token_type assignType, void *opSymbol, void *assignSymbol)
+void add_operator_or_assignment_token(tokens **tks, char **code, enum token_type opType, enum token_type assignType, void *assignSymbol)
 {
     if (*(*code + 1) == '=') {
         add_token(tks, assignType, assignSymbol);
         (*code)++;
     } else {
-        add_token(tks, opType, opSymbol);
+        add_token(tks, opType, NULL);
     }
 }
 
@@ -70,7 +71,10 @@ tokens *lexer(char *code)
         }
 
         if (isalpha(*code)) {
-            if (!lex_boolean(&tks, &code) && !lex_null(&tks, &code) && !lex_control_flow(&tks, &code)) {
+            if (!lex_boolean(&tks, &code)
+            && !lex_null(&tks, &code)
+            && !lex_control_flow(&tks, &code)
+            && !lex_declaration(&tks, &code)) {
                 char buffer[50];
                 int i = 0;
                 while (isalnum(*code) || *code == '_') {
@@ -111,23 +115,23 @@ tokens *lexer(char *code)
                 case ';': add_token(&tks, TOKEN_SEMICOLON, NULL); break;
                 case ':': add_token(&tks, TOKEN_COLON, NULL); break;
 
-                case '=': add_operator_token(&tks, &code, '=', TOKEN_ASSIGN, TOKEN_OP_EQUAL, NULL, "=="); break;
-                case '!': add_operator_token(&tks, &code, '=', TOKEN_OP_NOT, TOKEN_OP_NOT_EQUAL, NULL, "!="); break;
-                case '<': add_operator_token(&tks, &code, '=', TOKEN_OP_LESS, TOKEN_OP_LESS_EQUAL, NULL, "<="); break;
-                case '>':add_operator_token(&tks, &code, '=', TOKEN_OP_GREATER, TOKEN_OP_GREATER_EQUAL, NULL, ">="); break;
-                case '&': add_operator_token(&tks, &code, '&', TOKEN_ERROR, TOKEN_OP_AND, NULL, "&&"); break;
-                case '|': add_operator_token(&tks, &code, '|', TOKEN_ERROR, TOKEN_OP_OR, NULL, "||"); break;
+                case '=': add_operator_token(&tks, &code, '=', TOKEN_ASSIGN, TOKEN_OP_EQUAL, "=="); break;
+                case '!': add_operator_token(&tks, &code, '=', TOKEN_OP_NOT, TOKEN_OP_NOT_EQUAL, "!="); break;
+                case '<': add_operator_token(&tks, &code, '=', TOKEN_OP_LESS, TOKEN_OP_LESS_EQUAL, "<="); break;
+                case '>':add_operator_token(&tks, &code, '=', TOKEN_OP_GREATER, TOKEN_OP_GREATER_EQUAL, ">="); break;
+                case '&': add_operator_token(&tks, &code, '&', TOKEN_ERROR, TOKEN_OP_AND, "&&"); break;
+                case '|': add_operator_token(&tks, &code, '|', TOKEN_ERROR, TOKEN_OP_OR, "||"); break;
 
-                case '*': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MULTIPLY, TOKEN_ASSIGN_MULTIPLY, NULL, "*="); break;
-                case '/': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_DIVIDE, TOKEN_ASSIGN_DIVIDE, NULL, "/="); break;
-                case '%': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MODULO, TOKEN_ASSIGN_MODULO, NULL, "%="); break;
+                case '*': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MULTIPLY, TOKEN_ASSIGN_MULTIPLY, "*="); break;
+                case '/': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_DIVIDE, TOKEN_ASSIGN_DIVIDE, "/="); break;
+                case '%': add_operator_or_assignment_token(&tks, &code, TOKEN_OP_MODULO, TOKEN_ASSIGN_MODULO, "%="); break;
 
                 case '+':
                     if (*(code+1) == '+') {
                         add_token(&tks, TOKEN_INCR, "++");
                         code++;
                     } else {
-                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_PLUS, TOKEN_ASSIGN_ADD, NULL, "+=");
+                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_PLUS, TOKEN_ASSIGN_ADD, "+=");
                     }
                     break;
                 case '-':
@@ -135,7 +139,7 @@ tokens *lexer(char *code)
                         add_token(&tks, TOKEN_DECR, "--");
                         code++;
                     } else {
-                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_SUBTRACT, TOKEN_ASSIGN_SUBTRACT, NULL, "-=");
+                        add_operator_or_assignment_token(&tks, &code, TOKEN_OP_SUBTRACT, TOKEN_ASSIGN_SUBTRACT, "-=");
                     }
                     break;
                     

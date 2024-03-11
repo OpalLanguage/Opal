@@ -46,4 +46,4 @@ add_executable(Opal
         include/parser/parsers/parse_switch.h
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
-        include/parser/parsers/parse_class.h src/lexer/lexers/lex_control_flow.c include/lexer/lexers/lex_control_flow.h)
+        include/parser/parsers/parse_class.h src/lexer/lexers/lex_control_flow.c include/lexer/lexers/lex_control_flow.h src/lexer/lexers/lex_declaration.c include/lexer/lexers/lex_declaration.h)
