@@ -5,6 +5,6 @@
 
 #include <stdbool.h>
 
-bool lex_misc(tokens **tks, char **code);
+bool lex_misc(Tokens **tks, char **code);
 
 #endif

@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-void lex_float(tokens **tks, double number)
+void lex_float(Tokens **tks, double number)
 {
     double *float_number = malloc(sizeof(double));
     *float_number = number;

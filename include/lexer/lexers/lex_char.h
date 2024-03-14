@@ -3,6 +3,6 @@
 
 #include "../lexer.h"
 
-void lex_char(tokens **tks, char **code);
+void lex_char(Tokens **tks, char **code);
 
 #endif

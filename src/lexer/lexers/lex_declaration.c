@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-bool lex_declaration(tokens **tks, char **code)
+bool lex_declaration(Tokens **tks, char **code)
 {
     if (strncmp(*code, "class", 5) == 0 && !isalnum(*(*code + 5))) {
         add_token(tks, TOKEN_CLASS, "class");

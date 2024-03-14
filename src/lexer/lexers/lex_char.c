@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-void lex_char(tokens **tks, char **code)
+void lex_char(Tokens **tks, char **code)
 {
     (*code)++;
     char *c = malloc(sizeof(char));

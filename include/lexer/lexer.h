@@ -73,16 +73,16 @@ typedef enum
     TOKEN_NULL,
     TOKEN_EOF,
     TOKEN_ERROR,
-} token_type;
+} TokenType;
 
-typedef struct tokens
+typedef struct Tokens
 {
-    token_type type;
+    TokenType type;
     void *value;
-    struct tokens *next;
-} tokens;
+    struct Tokens *next;
+} Tokens;
 
-void add_token(tokens **tks, token_type type, void *value);
-tokens *lexer(char *code);
+void add_token(Tokens **tks, TokenType type, void *value);
+Tokens *lexer(char *code);
 
 #endif

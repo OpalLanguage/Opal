@@ -3,6 +3,6 @@
 
 #include "../lexer.h"
 
-void lex_float(tokens **tks, double number);
+void lex_float(Tokens **tks, double number);
 
 #endif

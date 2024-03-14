@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-void lex_string(tokens **tks, char **code)
+void lex_string(Tokens **tks, char **code)
 {
     char *string = calloc(50, sizeof(char));
     char *start = string;

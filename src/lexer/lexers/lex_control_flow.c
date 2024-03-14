@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-bool lex_control_flow(tokens **tks, char **code)
+bool lex_control_flow(Tokens **tks, char **code)
 {
     if (strncmp(*code, "if", 2) == 0 && !isalnum(*(*code + 2))) {
         add_token(tks, TOKEN_IF, "if");

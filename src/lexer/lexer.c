@@ -15,9 +15,9 @@
 #include <stdio.h>
 #include <string.h>
 
-void add_token(tokens **tks, const token_type type, void *value)
+void add_token(Tokens **tks, const TokenType type, void *value)
 {
-    tokens *new_token = (tokens*)malloc(sizeof(tokens));
+    Tokens *new_token = (Tokens*)malloc(sizeof(Tokens));
     if (new_token == NULL) {
         perror("malloc");
         exit(1);
@@ -31,7 +31,7 @@ void add_token(tokens **tks, const token_type type, void *value)
         *tks = new_token;
     }
     else {
-        tokens *current = *tks;
+        Tokens *current = *tks;
         while (current->next != NULL) {
             current = current->next;
         }
@@ -39,7 +39,7 @@ void add_token(tokens **tks, const token_type type, void *value)
     }
 }
 
-void add_operator_token(tokens **tks, char **code, char expected, token_type singleType, token_type doubleType, void *doubleValue)
+void add_operator_token(Tokens **tks, char **code, char expected, TokenType singleType, TokenType doubleType, void *doubleValue)
 {
     if (*(*code + 1) == expected) {
         add_token(tks, doubleType, doubleValue);
@@ -49,7 +49,7 @@ void add_operator_token(tokens **tks, char **code, char expected, token_type sin
     }
 }
 
-void add_operator_or_assignment_token(tokens **tks, char **code, token_type opType, token_type assignType, void *assignSymbol)
+void add_operator_or_assignment_token(Tokens **tks, char **code, TokenType opType, TokenType assignType, void *assignSymbol)
 {
     if (*(*code + 1) == '=') {
         add_token(tks, assignType, assignSymbol);
@@ -64,9 +64,9 @@ void skip_whitespace_and_continue(char **code)
     while (isspace(**code)) (*code)++;
 }
 
-tokens *lexer(char *code)
+Tokens *lexer(char *code)
 {
-    tokens *tks = NULL;
+    Tokens *tks = NULL;
 
     while (*code != '\0') {
         if (isspace(*code)) {

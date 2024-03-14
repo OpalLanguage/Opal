@@ -5,6 +5,6 @@
 
 #include <stdbool.h>
 
-bool lex_control_flow(tokens **tks, char **code);
+bool lex_control_flow(Tokens **tks, char **code);
 
 #endif

@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-void lex_int(tokens **tks, double number)
+void lex_int(Tokens **tks, double number)
 {
     int *int_number = malloc(sizeof(int));
     *int_number = (int)number;

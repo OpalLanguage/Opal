@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-bool lex_null(tokens **tks, char **code)
+bool lex_null(Tokens **tks, char **code)
 {
     if (strncmp(*code, "Null", 4) == 0) {
         add_token(tks, TOKEN_NULL, "Null");

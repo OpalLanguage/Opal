@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-bool lex_boolean(tokens **tks, char **code)
+bool lex_boolean(Tokens **tks, char **code)
 {
     if (strncmp(*code, "True", 4) == 0) {
         add_token(tks, TOKEN_BOOLEAN, "True");

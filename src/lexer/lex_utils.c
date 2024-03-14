@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-char get_operator_as_string(token_type type)
+char get_operator_as_string(TokenType type)
 {
     switch (type) {
         case TOKEN_OP_PLUS:
@@ -46,7 +46,7 @@ char get_operator_as_string(token_type type)
     }
 }
 
-void show_lexer(tokens *tks)
+void show_lexer(Tokens *tks)
 {
     while (tks != NULL) {
         switch (tks->type) {

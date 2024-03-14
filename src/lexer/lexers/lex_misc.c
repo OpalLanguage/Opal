@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-bool lex_misc(tokens **tks, char **code)
+bool lex_misc(Tokens **tks, char **code)
 {
     if (strncmp(*code, "return", 6) == 0 && !isalnum(*(*code + 6))) {
         add_token(tks, TOKEN_RETURN, "return");
