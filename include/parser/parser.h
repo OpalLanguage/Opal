@@ -69,6 +69,12 @@ typedef struct
 typedef struct
 {
     ASTNode node;
+    char value;
+} LiteralChar;
+
+typedef struct
+{
+    ASTNode node;
     bool value;
 } LiteralBoolean;
 

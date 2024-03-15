@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-ASTNode* create_literal_numeric(const char* value) {
+ASTNode* create_literal_numeric(const char* value)
+{
     LiteralNumeric* literal = (LiteralNumeric*)malloc(sizeof(LiteralNumeric));
     if (!literal) {
         perror("malloc");
@@ -15,7 +16,8 @@ ASTNode* create_literal_numeric(const char* value) {
     return (ASTNode*)literal;
 }
 
-ASTNode* create_literal_float(const char* value) {
+ASTNode* create_literal_float(const char* value)
+{
     LiteralFloat* literal = (LiteralFloat*)malloc(sizeof(LiteralFloat));
     if (!literal) {
         perror("malloc");
@@ -26,24 +28,38 @@ ASTNode* create_literal_float(const char* value) {
     return (ASTNode*)literal;
 }
 
-ASTNode* create_literal_boolean(const char* value) {
+ASTNode* create_literal_boolean(const char* value)
+{
     LiteralBoolean* literal = (LiteralBoolean*)malloc(sizeof(LiteralBoolean));
     if (!literal) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
     literal->node.type = NODE_TYPE_LITERAL_BOOLEAN;
-    literal->value = strcmp(value, "true") == 0 || strcmp(value, "True") == 0;
+    literal->value = strcmp(value, "True") == 0;
     return (ASTNode*)literal;
 }
 
-ASTNode* create_literal_string(const char* value, TokenType type) {
+ASTNode* create_literal_char(const char* value)
+{
+    LiteralChar* literal = (LiteralChar*)malloc(sizeof(LiteralChar));
+    if (!literal) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+    literal->node.type = NODE_TYPE_LITERAL_CHAR;
+    literal->value = *value;
+    return (ASTNode*)literal;
+}
+
+ASTNode* create_literal_string(const char* value)
+{
     LiteralString* literal = (LiteralString*)malloc(sizeof(LiteralString));
     if (!literal) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    literal->node.type = type == TOKEN_CHAR ? NODE_TYPE_LITERAL_CHAR : NODE_TYPE_LITERAL_STRING;
+    literal->node.type = NODE_TYPE_LITERAL_STRING;
     literal->value = strdup(value);
     return (ASTNode*)literal;
 }
@@ -74,8 +90,10 @@ ASTNode* parse_literal(Tokens **tokens)
             literalNode = create_literal_boolean((*tokens)->value);
             break;
         case TOKEN_CHAR:
+            literalNode = create_literal_char((*tokens)->value);
+            break;
         case TOKEN_STRING:
-            literalNode = create_literal_string((*tokens)->value, (*tokens)->type);
+            literalNode = create_literal_string((*tokens)->value);
             break;
         case TOKEN_NULL:
             literalNode = create_literal_null();
@@ -85,6 +103,5 @@ ASTNode* parse_literal(Tokens **tokens)
             exit(EXIT_FAILURE);
     }
 
-    *tokens = (*tokens)->next;
     return literalNode;
 }

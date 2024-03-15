@@ -1,11 +1,11 @@
 #include "../../include/parser/parser.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void show_parser(ASTNode *astNode)
 {
     while (astNode != NULL) {
-        printf("Node Type: %u\n", astNode->type);
         switch (astNode->type) {
             case NODE_TYPE_CLASS_DECLARATION:
                 break;
@@ -17,26 +17,31 @@ void show_parser(ASTNode *astNode)
                     switch (varDecl->expression->type) {
                         case NODE_TYPE_LITERAL_NUMERIC: {
                             LiteralNumeric *num = (LiteralNumeric*)varDecl->expression;
-                            printf("%d\n", num->value);
+                            printf("%d\n  Type: INT\n", num->value);
                             break;
                         }
                         case NODE_TYPE_LITERAL_FLOAT: {
                             LiteralFloat *flt = (LiteralFloat*)varDecl->expression;
-                            printf("%f\n", flt->value);
+                            printf("%f\n  Type: FLOAT\n", flt->value);
+                            break;
+                        }
+                        case NODE_TYPE_LITERAL_CHAR: {
+                            LiteralChar *ch = (LiteralChar*)varDecl->expression;
+                            printf("\'%c\'\n  Type: CHAR\n", ch->value);
                             break;
                         }
                         case NODE_TYPE_LITERAL_STRING: {
                             LiteralString *str = (LiteralString*)varDecl->expression;
-                            printf("\"%s\"\n", str->value);
+                            printf("\"%s\"\n  Type: STRING\n", str->value);
                             break;
                         }
                         case NODE_TYPE_LITERAL_BOOLEAN: {
                             LiteralBoolean *bln = (LiteralBoolean*)varDecl->expression;
-                            printf("%s\n", bln->value ? "true" : "false");
+                            printf("%s\n  Type: BOOLEAN\n", bln->value ? "True" : "False");
                             break;
                         }
                         case NODE_TYPE_LITERAL_NULL: {
-                            printf("null\n");
+                            printf("Null\n  Type: NULL\n");
                             break;
                         }
                         default:
@@ -95,8 +100,8 @@ void show_parser(ASTNode *astNode)
             case NODE_TYPE_LITERAL_CHAR:
                 break;
             default:
-                printf("Unknown type for parser.");
-                break;
+                printf("Unknown type for parser. (Type: %u)", astNode->type);
+                exit(EXIT_FAILURE);
         }
 
         astNode = astNode->next;

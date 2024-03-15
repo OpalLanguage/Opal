@@ -22,5 +22,6 @@ int main(void)
 
     free(code);
     free(tks);
+    free(astNode);
     return 0;
 }

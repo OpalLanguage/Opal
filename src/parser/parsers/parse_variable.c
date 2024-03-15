@@ -60,6 +60,7 @@ ASTNode* parse_variable_declaration(Tokens **tokens)
     }
 
     variableDeclaration->expression = parse_literal(tokens);
+    *tokens = (*tokens)->next;
 
     return (ASTNode*)variableDeclaration;
 }
