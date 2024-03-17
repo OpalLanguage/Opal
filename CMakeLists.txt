@@ -7,7 +7,6 @@ add_executable(Opal
         src/main.c
         src/console.c
         src/file_loader.c
-        src/perf_test.c
 
         src/lexer/lexer.c
         src/lexer/lex_utils.c
@@ -35,7 +34,6 @@ add_executable(Opal
 
         include/console.h
         include/file_loader.h
-        include/perf_test.h
 
         include/lexer/lexer.h
         include/lexer/lex_utils.h

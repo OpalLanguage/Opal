@@ -2,32 +2,38 @@
 #include "../../include/parser/parsers/parse_variable.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
-void add_node(ASTNode **ast, ASTNode *node)
+Node *parse(Tokens **tokens)
 {
-    if (*ast == NULL) {
-        *ast = node;
-    } else {
-        ASTNode *current = *ast;
-        while (current->next != NULL) {
-            current = current->next;
+    Node *head = NULL;
+    Node **current = &head;
+
+    while (*tokens && (*tokens)->type != TOKEN_EOF) {
+        if ((*tokens)->type == TOKEN_IDENTIFIER) {
+            *current = parse_variable(tokens);
+            current = &((*current)->next);
+        } else {
+            *tokens = (*tokens)->next;
         }
-        current->next = node;
     }
+
+    return head;
 }
 
-ASTNode *parse(Tokens *tokens)
+void freeAst(Node *node)
 {
-    ASTNode *ast = NULL;
+    while (node != NULL) {
+        Node *nextNode = node->next;
 
-    while (tokens && tokens->type != TOKEN_EOF) {
-        if (tokens->type == TOKEN_IDENTIFIER || tokens->type == TOKEN_CONST) {
-            ASTNode* varDeclNode = parse_variable_declaration(&tokens);
-            add_node(&ast, varDeclNode);
+        if (node->type == NODE_VARIABLE_ASSIGNMENT) {
+            free(node->data.assignment.identifier);
+            if (node->data.assignment.value.type == VALUE_STRING) {
+                free(node->data.assignment.value.data.stringValue);
+            }
         }
 
-        tokens = tokens->next;
+        free(node);
+        node = nextNode;
     }
-
-    return ast;
 }

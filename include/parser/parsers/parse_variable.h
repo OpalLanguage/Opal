@@ -3,6 +3,6 @@
 
 #include "../../parser/parser.h"
 
-ASTNode* parse_variable_declaration(Tokens **tokens);
+Node *parse_variable(Tokens **tokens);
 
 #endif

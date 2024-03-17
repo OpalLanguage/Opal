@@ -3,6 +3,6 @@
 
 #include "../../parser/parser.h"
 
-ASTNode* parse_literal(Tokens **tokens);
+Value *parse_literal(Tokens **tokens);
 
 #endif

@@ -4,104 +4,49 @@
 #include <stdlib.h>
 #include <string.h>
 
-ASTNode* create_literal_numeric(const char* value)
+Value *parse_literal(Tokens **tokens)
 {
-    LiteralNumeric* literal = (LiteralNumeric*)malloc(sizeof(LiteralNumeric));
-    if (!literal) {
+    if (tokens == NULL || *tokens == NULL) {
+        fprintf(stderr, "Error: Token is NULL in parse_literal.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Value *value = (Value*)malloc(sizeof(Value));
+    if (value == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    literal->node.type = NODE_TYPE_LITERAL_NUMERIC;
-    literal->value = atoi(value);
-    return (ASTNode*)literal;
-}
-
-ASTNode* create_literal_float(const char* value)
-{
-    LiteralFloat* literal = (LiteralFloat*)malloc(sizeof(LiteralFloat));
-    if (!literal) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    literal->node.type = NODE_TYPE_LITERAL_FLOAT;
-    literal->value = atof(value);
-    return (ASTNode*)literal;
-}
-
-ASTNode* create_literal_boolean(const char* value)
-{
-    LiteralBoolean* literal = (LiteralBoolean*)malloc(sizeof(LiteralBoolean));
-    if (!literal) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    literal->node.type = NODE_TYPE_LITERAL_BOOLEAN;
-    literal->value = strcmp(value, "True") == 0;
-    return (ASTNode*)literal;
-}
-
-ASTNode* create_literal_char(const char* value)
-{
-    LiteralChar* literal = (LiteralChar*)malloc(sizeof(LiteralChar));
-    if (!literal) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    literal->node.type = NODE_TYPE_LITERAL_CHAR;
-    literal->value = *value;
-    return (ASTNode*)literal;
-}
-
-ASTNode* create_literal_string(const char* value)
-{
-    LiteralString* literal = (LiteralString*)malloc(sizeof(LiteralString));
-    if (!literal) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    literal->node.type = NODE_TYPE_LITERAL_STRING;
-    literal->value = strdup(value);
-    return (ASTNode*)literal;
-}
-
-ASTNode* create_literal_null()
-{
-    LiteralNull* literal = (LiteralNull*)malloc(sizeof(LiteralNull));
-    if (!literal) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    literal->node.type = NODE_TYPE_LITERAL_NULL;
-    return (ASTNode*)literal;
-}
-
-ASTNode* parse_literal(Tokens **tokens)
-{
-    ASTNode* literalNode = NULL;
 
     switch ((*tokens)->type) {
         case TOKEN_INT:
-            literalNode = create_literal_numeric((*tokens)->value);
+            value->type = VALUE_INT;
+            value->data.intValue = *((int*)(*tokens)->value);
             break;
         case TOKEN_FLOAT:
-            literalNode = create_literal_float((*tokens)->value);
-            break;
-        case TOKEN_BOOLEAN:
-            literalNode = create_literal_boolean((*tokens)->value);
-            break;
-        case TOKEN_CHAR:
-            literalNode = create_literal_char((*tokens)->value);
+            value->type = VALUE_FLOAT;
+            value->data.floatValue = *((double*)(*tokens)->value);
             break;
         case TOKEN_STRING:
-            literalNode = create_literal_string((*tokens)->value);
+            value->type = VALUE_STRING;
+            value->data.stringValue = strdup((char*)(*tokens)->value);
+            if (value->data.stringValue == NULL) {
+                fprintf(stderr, "Memory allocation failed for string value\n");
+                free(value);
+                exit(EXIT_FAILURE);
+            }
             break;
-        case TOKEN_NULL:
-            literalNode = create_literal_null();
+        case TOKEN_CHAR:
+            value->type = VALUE_CHAR;
+            value->data.charValue = *((char*)(*tokens)->value);
+            break;
+        case TOKEN_BOOLEAN:
+            value->type = VALUE_BOOLEAN;
+            value->data.booleanValue = *((bool*)(*tokens)->value);
             break;
         default:
-            fprintf(stderr, "Syntax error: Unexpected token type for literal.\n");
+            fprintf(stderr, "Syntax error: Invalid type of data after assign !\n");
             exit(EXIT_FAILURE);
     }
 
-    return literalNode;
+    return value;
 }

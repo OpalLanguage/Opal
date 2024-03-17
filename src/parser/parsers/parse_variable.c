@@ -3,64 +3,48 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-ASTNode* parse_variable_declaration(Tokens **tokens)
+Node *parse_variable(Tokens **tokens)
 {
-    VariableDeclaration *variableDeclaration = (VariableDeclaration*)malloc(sizeof(VariableDeclaration));
-    if (variableDeclaration == NULL) {
+    if (tokens == NULL || *tokens == NULL) {
+        fprintf(stderr, "Error: Token is NULL in parse_variable.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Node *variable_node = (Node*)malloc(sizeof(Node));
+
+    if (variable_node == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
 
-    bool isConst = (*tokens)->type == TOKEN_CONST;
-
-    variableDeclaration->node.type = NODE_TYPE_VARIABLE_DECLARATION;
-    variableDeclaration->isConst = isConst;
-
-    /*
-     * DEF OF THE VARIABLE NAME
-     */
-
-    if (isConst) {
-        *tokens = (*tokens)->next;
-    }
-
-    if ((*tokens)->type != TOKEN_IDENTIFIER) {
-        fprintf(stderr, "Syntax error: Expected 'IDENTIFIER' after variable const for variable.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    variableDeclaration->name = (*tokens)->value;
-
-    /*
-     * ASSIGN
-     */
+    variable_node->type = NODE_VARIABLE_ASSIGNMENT;
+    variable_node->data.assignment.identifier = strdup((*tokens)->value);
 
     *tokens = (*tokens)->next;
 
-    if ((*tokens)->type != TOKEN_ASSIGN) {
-        fprintf(stderr, "Syntax error: Expected '=' after variable name.\n");
+    if (!*tokens || (*tokens)->type != TOKEN_ASSIGN) {
+        fprintf(stderr, "Syntax error: Expected '=' after identifier !\n");
+        free(variable_node->data.assignment.identifier);
+        free(variable_node);
         exit(EXIT_FAILURE);
     }
 
-    /*
-     * DEF OF THE VALUE FOR THE VARIABLE
-     */
-
     *tokens = (*tokens)->next;
 
-    if ((*tokens)->type != TOKEN_INT
-    && (*tokens)->type != TOKEN_FLOAT
-    && (*tokens)->type != TOKEN_BOOLEAN
-    && (*tokens)->type != TOKEN_CHAR
-    && (*tokens)->type != TOKEN_STRING
-    && (*tokens)->type != TOKEN_NULL) {
-        fprintf(stderr, "Syntax error: Expected 'VALUE' after assign.\n");
+    if (!*tokens) {
+        fprintf(stderr, "Syntax error: Expected a value after '=' !\n");
+        free(variable_node->data.assignment.identifier);
+        free(variable_node);
         exit(EXIT_FAILURE);
     }
 
-    variableDeclaration->expression = parse_literal(tokens);
+    variable_node->data.assignment.value = *parse_literal(tokens);
+
     *tokens = (*tokens)->next;
 
-    return (ASTNode*)variableDeclaration;
+    variable_node->next = NULL;
+
+    return variable_node;
 }
