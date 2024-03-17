@@ -16,7 +16,8 @@ typedef enum
     VALUE_FLOAT,
     VALUE_STRING,
     VALUE_CHAR,
-    VALUE_BOOLEAN
+    VALUE_BOOLEAN,
+    VALUE_NULL
 } ValueType;
 
 typedef struct Value

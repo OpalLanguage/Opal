@@ -43,6 +43,9 @@ Value *parse_literal(Tokens **tokens)
             value->type = VALUE_BOOLEAN;
             value->data.booleanValue = *((bool*)(*tokens)->value);
             break;
+        case TOKEN_NULL:
+            value->type = VALUE_NULL;
+            break;
         default:
             fprintf(stderr, "Syntax error: Invalid type of data after assign !\n");
             exit(EXIT_FAILURE);
