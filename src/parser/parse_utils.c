@@ -48,8 +48,8 @@ void show_parser(Node *node)
     while (node != NULL) {
         switch (node->type) {
             case NODE_VARIABLE_ASSIGNMENT:
-                printf("Variable Assignment\n  Name: %s\n  Type: %s\n  Value: ", node->data.assignment.identifier, getValueTypeName(node->data.assignment.value.type));
-                showValue(node->data.assignment.value);
+                printf("Variable Assignment\n  Name: %s\n  Type: %s\n  Value: ", node->data.variableAssignment.identifier, getValueTypeName(node->data.variableAssignment.value.type));
+                showValue(node->data.variableAssignment.value);
                 printf("\n");
                 break;
             default:

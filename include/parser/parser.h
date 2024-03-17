@@ -5,6 +5,10 @@
 
 #include <stdbool.h>
 
+/*
+ * UTILS
+ */
+
 typedef enum
 {
     NODE_VARIABLE_ASSIGNMENT
@@ -32,17 +36,25 @@ typedef struct Value
     } data;
 } Value;
 
+/*
+ * VARIABLE
+ */
+
 typedef struct VariableAssignmentNode
 {
     char* identifier;
     Value value;
 } VariableAssignmentNode;
 
+/*
+ * GLOBAL
+ */
+
 typedef struct Node
 {
     NodeType type;
     union {
-        VariableAssignmentNode assignment;
+        VariableAssignmentNode variableAssignment;
     } data;
     struct Node *next;
 } Node;

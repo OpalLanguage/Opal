@@ -27,9 +27,9 @@ void freeAst(Node *node)
         Node *nextNode = node->next;
 
         if (node->type == NODE_VARIABLE_ASSIGNMENT) {
-            free(node->data.assignment.identifier);
-            if (node->data.assignment.value.type == VALUE_STRING) {
-                free(node->data.assignment.value.data.stringValue);
+            free(node->data.variableAssignment.identifier);
+            if (node->data.variableAssignment.value.type == VALUE_STRING) {
+                free(node->data.variableAssignment.value.data.stringValue);
             }
         }
 

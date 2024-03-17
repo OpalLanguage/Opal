@@ -20,13 +20,13 @@ Node *parse_variable(Tokens **tokens)
     }
 
     variable_node->type = NODE_VARIABLE_ASSIGNMENT;
-    variable_node->data.assignment.identifier = strdup((*tokens)->value);
+    variable_node->data.variableAssignment.identifier = strdup((*tokens)->value);
 
     *tokens = (*tokens)->next;
 
     if (!*tokens || (*tokens)->type != TOKEN_ASSIGN) {
         fprintf(stderr, "Syntax error: Expected '=' after identifier !\n");
-        free(variable_node->data.assignment.identifier);
+        free(variable_node->data.variableAssignment.identifier);
         free(variable_node);
         exit(EXIT_FAILURE);
     }
@@ -35,12 +35,12 @@ Node *parse_variable(Tokens **tokens)
 
     if (!*tokens) {
         fprintf(stderr, "Syntax error: Expected a value after '=' !\n");
-        free(variable_node->data.assignment.identifier);
+        free(variable_node->data.variableAssignment.identifier);
         free(variable_node);
         exit(EXIT_FAILURE);
     }
 
-    variable_node->data.assignment.value = *parse_literal(tokens);
+    variable_node->data.variableAssignment.value = *parse_literal(tokens);
 
     *tokens = (*tokens)->next;
 

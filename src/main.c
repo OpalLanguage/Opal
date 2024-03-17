@@ -11,21 +11,18 @@ int main(void)
 {
     char *code = asker();
     //char *code = get_code("../opal/main.opal");
-    Tokens *tks = lexer(code);
 
+    Tokens *tks = lexer(code);
     Node *node = parse(&tks);
 
     show_parser(node);
 
     free(code);
-
     while (tks != NULL) {
         Tokens *current = tks;
         tks = tks->next;
         free(current);
     }
-
     freeAst(node);
-
     return 0;
 }
