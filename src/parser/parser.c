@@ -10,7 +10,7 @@ Node *parse(Tokens **tokens)
     Node **current = &head;
 
     while (*tokens && (*tokens)->type != TOKEN_EOF) {
-        if ((*tokens)->type == TOKEN_IDENTIFIER) {
+        if ((*tokens)->type == TOKEN_IDENTIFIER || (*tokens)->type == TOKEN_CONST) {
             *current = parse_variable(tokens);
             current = &((*current)->next);
         } else {
@@ -26,7 +26,7 @@ void freeAst(Node *node)
     while (node != NULL) {
         Node *nextNode = node->next;
 
-        if (node->type == NODE_VARIABLE_ASSIGNMENT) {
+        if (node->type == NODE_VARIABLE_ASSIGNMENT || node->type == TOKEN_CONST) {
             free(node->data.variableAssignment.identifier);
             if (node->data.variableAssignment.value.type == VALUE_STRING) {
                 free(node->data.variableAssignment.value.data.stringValue);

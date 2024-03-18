@@ -50,7 +50,7 @@ void show_parser(Node *node)
             case NODE_VARIABLE_ASSIGNMENT:
                 printf("Variable Assignment\n  Name: %s\n  Type: %s\n  Value: ", node->data.variableAssignment.identifier, getValueTypeName(node->data.variableAssignment.value.type));
                 showValue(node->data.variableAssignment.value);
-                printf("\n");
+                printf("\n  isConst: %s\n", node->data.variableAssignment.isConst ? "True" : "False");
                 break;
             default:
                 printf("Unknown Node Type\n");

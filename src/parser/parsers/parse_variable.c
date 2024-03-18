@@ -20,6 +20,12 @@ Node *parse_variable(Tokens **tokens)
     }
 
     variable_node->type = NODE_VARIABLE_ASSIGNMENT;
+    variable_node->data.variableAssignment.isConst = (*tokens)->type == TOKEN_CONST;
+
+    if (variable_node->data.variableAssignment.isConst) {
+        *tokens = (*tokens)->next;
+    }
+
     variable_node->data.variableAssignment.identifier = strdup((*tokens)->value);
 
     *tokens = (*tokens)->next;

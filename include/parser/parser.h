@@ -42,6 +42,7 @@ typedef struct Value
 
 typedef struct VariableAssignmentNode
 {
+    bool isConst;
     char* identifier;
     Value value;
 } VariableAssignmentNode;
