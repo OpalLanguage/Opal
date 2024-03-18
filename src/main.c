@@ -15,6 +15,7 @@ int main(void)
     Tokens *tks = lexer(code);
     Node *node = parse(&tks);
 
+    //show_lexer(tks);
     show_parser(node);
 
     free(code);
