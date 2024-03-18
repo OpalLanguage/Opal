@@ -5,13 +5,16 @@
 
 #include <stdbool.h>
 
+typedef struct Node Node;
+
 /*
  * UTILS
  */
 
 typedef enum
 {
-    NODE_VARIABLE_ASSIGNMENT
+    NODE_VARIABLE_ASSIGNMENT,
+    NODE_FUNCTION_ASSIGNMENT
 } NodeType;
 
 typedef enum
@@ -39,11 +42,17 @@ typedef struct Value
     union {
         int intValue;
         double floatValue;
-        char* stringValue;
+        char *stringValue;
         char charValue;
         bool booleanValue;
     } data;
 } Value;
+
+typedef struct Parameter
+{
+    char *name;
+    ValueType type;
+} Parameter;
 
 /*
  * VARIABLE
@@ -52,23 +61,36 @@ typedef struct Value
 typedef struct VariableAssignmentNode
 {
     bool isConst;
-    char* identifier;
+    char *identifier;
     AssignmentType assignmentType;
     Value value;
 } VariableAssignmentNode;
 
 /*
+ * FUNCTION
+ */
+
+typedef struct FunctionAssignmentNode
+{
+    char *identifier;
+    Parameter *parameters;
+    int parametersCount;
+    //Node* body;
+} FunctionAssignmentNode;
+
+/*
  * GLOBAL
  */
 
-typedef struct Node
+struct Node
 {
     NodeType type;
     union {
         VariableAssignmentNode variableAssignment;
+        FunctionAssignmentNode functionAssignmentNode;
     } data;
     struct Node *next;
-} Node;
+};
 
 Node *parse(Tokens **tokens);
 void freeAst(Node *node);

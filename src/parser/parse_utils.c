@@ -68,6 +68,20 @@ void show_parser(Node *node)
                 showValue(node->data.variableAssignment.value);
                 printf("\n  isConst: %s\n", node->data.variableAssignment.isConst ? "True" : "False");
                 break;
+            case NODE_FUNCTION_ASSIGNMENT:
+                printf("Function Assignment\n  Name: %s\n  Parameters Count: %d\n",
+                       node->data.functionAssignmentNode.identifier,
+                       node->data.functionAssignmentNode.parametersCount);
+
+                for (int i = 0; i < node->data.functionAssignmentNode.parametersCount; i++) {
+                    Parameter param = node->data.functionAssignmentNode.parameters[i];
+                    printf("  Parameter %d: Name: %s, Type: %s",
+                           i + 1, param.name, getValueTypeName(param.type));
+
+                    printf("\n");
+                }
+
+                break;
             default:
                 printf("Unknown Node Type\n");
                 exit(EXIT_FAILURE);

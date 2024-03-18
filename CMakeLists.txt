@@ -31,6 +31,7 @@ add_executable(Opal
         src/parser/parsers/parse_function.c
         src/parser/parsers/parse_variable.c
         src/parser/parsers/parse_literal.c
+        src/parser/parsers/parse_parameter.c
 
         include/console.h
         include/file_loader.h
@@ -57,4 +58,5 @@ add_executable(Opal
         include/parser/parsers/parse_condition.h
         include/parser/parsers/parse_function.h
         include/parser/parsers/parse_class.h
-        include/parser/parsers/parse_literal.h)
+        include/parser/parsers/parse_literal.h
+        include/parser/parsers/parse_parameter.h)
