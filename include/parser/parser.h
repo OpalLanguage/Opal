@@ -24,6 +24,15 @@ typedef enum
     VALUE_NULL
 } ValueType;
 
+typedef enum
+{
+    ASSIGN,
+    ADD_ASSIGN,
+    SUB_ASSIGN,
+    MUL_ASSIGN,
+    DIV_ASSIGN
+} AssignmentType;
+
 typedef struct Value
 {
     ValueType type;
@@ -44,6 +53,7 @@ typedef struct VariableAssignmentNode
 {
     bool isConst;
     char* identifier;
+    AssignmentType assignmentType;
     Value value;
 } VariableAssignmentNode;
 

@@ -43,12 +43,28 @@ const char* getValueTypeName(ValueType type)
     }
 }
 
+const char* getAssignTypeName(AssignmentType type)
+{
+    switch (type) {
+        case ASSIGN: return "=";
+        case ADD_ASSIGN: return "+=";
+        case SUB_ASSIGN: return "-=";
+        case MUL_ASSIGN: return "*=";
+        case DIV_ASSIGN: return "/=";
+        default: return "Unknown Assignment Type";
+    }
+}
+
+
 void show_parser(Node *node)
 {
     while (node != NULL) {
         switch (node->type) {
             case NODE_VARIABLE_ASSIGNMENT:
-                printf("Variable Assignment\n  Name: %s\n  Type: %s\n  Value: ", node->data.variableAssignment.identifier, getValueTypeName(node->data.variableAssignment.value.type));
+                printf("Variable Assignment\n  Name: %s\n  Operator: %s\n  Type: %s\n  Value: ",
+                       node->data.variableAssignment.identifier,
+                       getAssignTypeName(node->data.variableAssignment.assignmentType),
+                       getValueTypeName(node->data.variableAssignment.value.type));
                 showValue(node->data.variableAssignment.value);
                 printf("\n  isConst: %s\n", node->data.variableAssignment.isConst ? "True" : "False");
                 break;

@@ -30,11 +30,27 @@ Node *parse_variable(Tokens **tokens)
 
     *tokens = (*tokens)->next;
 
-    if (!*tokens || (*tokens)->type != TOKEN_ASSIGN) {
-        fprintf(stderr, "Syntax error: Expected '=' after identifier !\n");
-        free(variable_node->data.variableAssignment.identifier);
-        free(variable_node);
-        exit(EXIT_FAILURE);
+    switch ((*tokens)->type) {
+        case TOKEN_ASSIGN:
+            variable_node->data.variableAssignment.assignmentType = ASSIGN;
+            break;
+        case TOKEN_ASSIGN_ADD:
+            variable_node->data.variableAssignment.assignmentType = ADD_ASSIGN;
+            break;
+        case TOKEN_ASSIGN_SUBTRACT:
+            variable_node->data.variableAssignment.assignmentType = SUB_ASSIGN;
+            break;
+        case TOKEN_ASSIGN_MULTIPLY:
+            variable_node->data.variableAssignment.assignmentType = MUL_ASSIGN;
+            break;
+        case TOKEN_ASSIGN_DIVIDE:
+            variable_node->data.variableAssignment.assignmentType = DIV_ASSIGN;
+            break;
+        default:
+            fprintf(stderr, "Syntax error: Expected an assignment operator after identifier !\n");
+            free(variable_node->data.variableAssignment.identifier);
+            free(variable_node);
+            exit(EXIT_FAILURE);
     }
 
     *tokens = (*tokens)->next;
